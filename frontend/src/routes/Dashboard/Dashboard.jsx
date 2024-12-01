@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Card, Typography, Button, Input } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Loader from "../../components/Loader/Loader";
@@ -15,6 +14,8 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { Button } from "@nextui-org/button";
+import { Input } from "@nextui-org/input";
 
 // Register Chart.js elements
 ChartJS.register(
@@ -24,7 +25,7 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
 );
 
 const Dashboard = () => {
@@ -83,13 +84,13 @@ const Dashboard = () => {
       setTotalSales(response.data.total_sales);
     } catch (error) {
       const storedRole = localStorage.getItem("role");
-      
+
       console.error("Error fetching dashboard data:", error);
 
-            // Fetch data based on role
+      // Fetch data based on role
       if (storedRole === "admin") {
         toast.error(
-          error.response ? error.response.data.detail : "An error occurred"
+          error.response ? error.response.data.detail : "An error occurred",
         );
       }
     } finally {
@@ -130,7 +131,7 @@ const Dashboard = () => {
       await fetchDashboardData();
     } catch (err) {
       toast.error(
-        err.response ? err.response.data.detail : "An error occurred"
+        err.response ? err.response.data.detail : "An error occurred",
       );
     } finally {
       setLoading(false); // Hide loader after form submission
@@ -150,8 +151,8 @@ const Dashboard = () => {
       <div className="w-full md:w-[75%] ml-[20%] p-8 overflow-y-auto">
         <div className="mb-8 text-left">
           <Typography variant="h3" color="blue-gray">
-            MaxHelp Business{" "}
-            {role !== "admin" ? "Employee" : "Admin"} - Dashboard
+            MaxHelp Business {role !== "admin" ? "Employee" : "Admin"} -
+            Dashboard
           </Typography>
         </div>
 
@@ -235,7 +236,7 @@ const Dashboard = () => {
                     onChange={(e) => setBusinessUnitName(e.target.value)}
                     size="lg"
                     placeholder="Enter business unit name"
-                    required
+                    isRequired
                   />
                 </div>
 
@@ -247,7 +248,7 @@ const Dashboard = () => {
                     onChange={(e) => setLocation(e.target.value)}
                     size="lg"
                     placeholder="Enter location"
-                    required
+                    isRequired
                   />
                 </div>
 

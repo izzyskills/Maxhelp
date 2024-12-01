@@ -1,5 +1,6 @@
+import { Button } from "@nextui-org/button";
+import { Card } from "@nextui-org/card";
 import React from "react";
-import { Button, Card, Typography } from "@material-tailwind/react";
 
 const DeleteConfirmation = ({
   isOpen,

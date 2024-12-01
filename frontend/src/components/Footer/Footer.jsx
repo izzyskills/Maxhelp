@@ -1,9 +1,9 @@
 import React from "react";
-import { Typography, Button } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { TbHomeDown } from "react-icons/tb";
 import { IoPeopleSharp } from "react-icons/io5";
+import { Button } from "@nextui-org/button";
 
 const Footer = () => {
   return (

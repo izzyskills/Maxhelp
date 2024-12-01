@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Typography } from "@material-tailwind/react";
 import { FaUser, FaUserTie, FaUserShield } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";

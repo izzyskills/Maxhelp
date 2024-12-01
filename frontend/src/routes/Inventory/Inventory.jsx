@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Card, Typography, Button } from "@material-tailwind/react";
 import { getUnitName } from "../../api/helper";
 import { RxUpdate } from "react-icons/rx";
 import { useNavigate } from "react-router-dom";
@@ -28,6 +27,8 @@ const TABLE_HEAD = [
   "Delete", // Added delete column
 ];
 import LowInventory from "../../components/FormComponent/LowInventory";
+import { Button } from "@nextui-org/button";
+import { Card } from "@nextui-org/card";
 
 const Inventory = () => {
   const [inventoryData, setInventoryData] = useState([]); // State to hold fetched inventory data
@@ -39,7 +40,7 @@ const Inventory = () => {
   const [totalinventory, settotalInventory] = useState({
     totalInventory: 0,
   });
-    // Check if the role is admin
+  // Check if the role is admin
   const role = localStorage.getItem("role");
   const [showForm, setShowForm] = useState(false);
   const [showUpdateForm, setShowUpdateForm] = useState(false); // Show update form state
@@ -183,8 +184,8 @@ const Inventory = () => {
       // Update the inventory list dynamically
       setInventoryData((prevData) =>
         prevData.map((item) =>
-          item.id === updateData.id ? response.data : item
-        )
+          item.id === updateData.id ? response.data : item,
+        ),
       );
 
       setShowUpdateForm(false); // Close the update form
@@ -231,7 +232,7 @@ const Inventory = () => {
 
       // Remove deleted item from the state dynamically
       setInventoryData((prevData) =>
-        prevData.filter((item) => item.id !== itemToDelete.id)
+        prevData.filter((item) => item.id !== itemToDelete.id),
       );
 
       setShowDeleteConfirm(false); // Close the delete confirmation dialog
@@ -246,7 +247,6 @@ const Inventory = () => {
       setShowDeleteConfirm(false);
     }
   };
-
 
   // Open delete confirmation
   const openDeleteConfirm = (item) => {
@@ -273,8 +273,6 @@ const Inventory = () => {
     },
   ];
 
-
-
   return (
     <div className="min-h-screen flex px-4 py-2 lg:px-8 lg:py-4">
       <div className="w-full md:w-[75%] ml-[20%] p-8 overflow-y-auto">
@@ -297,9 +295,8 @@ const Inventory = () => {
                 </Typography>
               </div>
 
-              {
-                role === "admin" && (
-                  <div className="right absolute right-[-15%] md:right-[-70%]">
+              {role === "admin" && (
+                <div className="right absolute right-[-15%] md:right-[-70%]">
                   {/* Button to open the form */}
                   <div className="flex justify-end mb-6">
                     <Button onClick={() => setShowForm(true)} color="blue">
@@ -307,24 +304,21 @@ const Inventory = () => {
                     </Button>
                   </div>
                 </div>
-
-                )
-              }        
+              )}
               {role === "employee" && (
-                  <div className="right absolute right-[-15%] md:right-[-70%]">
-                    <div className="flex justify-end mb-6">
-                      <Button
-                        onClick={() => setShowLowInventoryForm(true)}
-                        color="blue"
-                        className="mb-4"
-                      >
-                        Report Low Inventory
-                      </Button>
-                    </div>
+                <div className="right absolute right-[-15%] md:right-[-70%]">
+                  <div className="flex justify-end mb-6">
+                    <Button
+                      onClick={() => setShowLowInventoryForm(true)}
+                      color="blue"
+                      className="mb-4"
+                    >
+                      Report Low Inventory
+                    </Button>
                   </div>
-                )}
+                </div>
+              )}
             </div>
-
 
             {/* Popup Form for Creating Item */}
             {showForm && (
@@ -349,15 +343,16 @@ const Inventory = () => {
               />
             )}
 
-
-          {/* Low Inventory Form Popup */}
-          {showLowInventoryForm && (
-            <LowInventory
-              onClose={() => setShowLowInventoryForm(false)} // Close the form
-              onSuccess={() => toast.success("Low inventory reported successfully")}
-              onError={() => toast.error("Failed to report low inventory")}
-            />
-          )}
+            {/* Low Inventory Form Popup */}
+            {showLowInventoryForm && (
+              <LowInventory
+                onClose={() => setShowLowInventoryForm(false)} // Close the form
+                onSuccess={() =>
+                  toast.success("Low inventory reported successfully")
+                }
+                onError={() => toast.error("Failed to report low inventory")}
+              />
+            )}
 
             {/* Delete Confirmation */}
             <DeleteConfirmation
@@ -431,13 +426,3 @@ const Inventory = () => {
 };
 
 export default Inventory;
-
-
-
-
-
-
-
-
-
-

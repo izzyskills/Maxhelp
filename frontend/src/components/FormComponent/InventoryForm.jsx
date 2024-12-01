@@ -1,12 +1,8 @@
 import React from "react";
-import {
-  Input,
-  Select,
-  Option,
-  Button,
-  Typography,
-  Card,
-} from "@material-tailwind/react";
+import { Button } from "@nextui-org/button";
+import { Card } from "@nextui-org/card";
+import { Input } from "@nextui-org/input";
+import { Select, SelectItem } from "@nextui-org/select";
 
 const InventoryForm = ({
   formData,
@@ -38,14 +34,14 @@ const InventoryForm = ({
             value={formData.name}
             onChange={handleInputChange}
             name="name"
-            required
+            isRequired
           />
           <Input
             label="Description"
             value={formData.description}
             onChange={handleInputChange}
             name="description"
-            required
+            isRequired
           />
           <Input
             label="Quantity"
@@ -53,7 +49,7 @@ const InventoryForm = ({
             value={formData.quantity}
             onChange={handleInputChange}
             name="quantity"
-            required
+            isRequired
           />
           <Input
             label="Reorder Level"
@@ -61,7 +57,7 @@ const InventoryForm = ({
             value={formData.reorder_level}
             onChange={handleInputChange}
             name="reorder_level"
-            required
+            isRequired
           />
           <Input
             label="Price"
@@ -69,19 +65,19 @@ const InventoryForm = ({
             value={formData.price}
             onChange={handleInputChange}
             name="price"
-            required
+            isRequired
           />
 
           <Select
             label="Unit Name"
             value={formData.unit_id}
             onChange={handleSelectChange}
-            required
+            isRequired
           >
-            <Option value="1">Restaurant</Option>
-            <Option value="2">Grocery Store</Option>
-            <Option value="3">Bottled Water Industry</Option>
-            <Option value="4">Bookshop</Option>
+            <SelectItem value="1">Restaurant</SelectItem>
+            <SelectItem value="2">Grocery Store</SelectItem>
+            <SelectItem value="3">Bottled Water Industry</SelectItem>
+            <SelectItem value="4">Bookshop</SelectItem>
           </Select>
 
           <div className="flex justify-between gap-4 mt-5">

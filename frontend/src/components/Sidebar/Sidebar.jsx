@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  List,
-  ListItem,
-  ListItemPrefix,
-  Typography,
-  Button,
-} from "@material-tailwind/react";
+// import {
+//   List,
+//   ListItem,
+//   ListItemPrefix,
+//   Typography,
+//   Button,
+// } from "@material-tailwind/react";
 import { FaHome, FaBox, FaUsers, FaBell, FaBackward } from "react-icons/fa";
 import { CiLogout } from "react-icons/ci";
 import { FiMenu } from "react-icons/fi"; // Hamburger icon
@@ -15,16 +15,15 @@ import { IoMdLogOut } from "react-icons/io";
 const Sidebar = ({ username, onLogout }) => {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [role , setRole] = useState('')
+  const [role, setRole] = useState("");
 
-  useEffect(()=>{
+  useEffect(() => {
     const storedRole = localStorage.getItem("role");
 
-    if (storedRole){
-      setRole(storedRole)
+    if (storedRole) {
+      setRole(storedRole);
     }
-
-  },[])
+  }, []);
 
   const handleNavigate = (path) => {
     navigate(path);
@@ -103,8 +102,7 @@ const Sidebar = ({ username, onLogout }) => {
           </span>
         </div>
 
-        {
-          role !== "employee" && (        
+        {role !== "employee" && (
           <div
             className="cursor-pointer hover:bg-white hover:bg-opacity-30 transition-colors duration-300 px-4 py-2 rounded-md flex"
             onClick={() => handleNavigate("/admin-employees")}
@@ -115,8 +113,8 @@ const Sidebar = ({ username, onLogout }) => {
             <span className={`${sidebarOpen ? "block" : "hidden"} md:block`}>
               Employee
             </span>
-          </div>)
-        }
+          </div>
+        )}
 
         <div
           className="cursor-pointer hover:bg-white hover:bg-opacity-30 transition-colors duration-300 px-4 py-2 rounded-md flex"
@@ -130,8 +128,7 @@ const Sidebar = ({ username, onLogout }) => {
           </span>
         </div>
 
-        {
-          role !== "employee" && (
+        {role !== "employee" && (
           <div
             className="cursor-pointer hover:bg-white hover:bg-opacity-30 transition-colors duration-300 px-4 py-2 rounded-md flex"
             onClick={() => handleNavigate("/notifications")}
@@ -142,8 +139,8 @@ const Sidebar = ({ username, onLogout }) => {
             <span className={`${sidebarOpen ? "block" : "hidden"} md:block`}>
               Notifications
             </span>
-          </div>      
-          )}
+          </div>
+        )}
 
         <ListItem
           className="cursor-pointer hover:bg-white hover:bg-opacity-30 transition-colors duration-300 px-4 py-2 rounded-md"

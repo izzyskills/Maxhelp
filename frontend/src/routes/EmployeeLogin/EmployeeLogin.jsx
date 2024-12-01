@@ -40,14 +40,14 @@ const EmployeeLogin = () => {
       name: "email",
       type: "text",
       placeholder: "Enter your email",
-      required: true,
+      isRequired: true,
     },
     {
       label: "Password",
       name: "password",
       type: "password",
       placeholder: "Enter your password",
-      required: true,
+      isRequired: true,
     },
   ];
 

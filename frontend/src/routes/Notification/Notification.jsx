@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardBody, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { fetchLowInventoryNotifications } from "../../api/api"; // Import the API function
 import Loader from "../../components/Loader/Loader";
 import DashboardDetails from "../../components/DashboardDetails/DashboardDetails";
+import { Card, CardBody } from "@nextui-org/card";
 
 const Notification = () => {
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ const Notification = () => {
         toast.error(
           error.response
             ? error.response.data.detail
-            : "Failed to load notifications."
+            : "Failed to load notifications.",
         );
         setLoading(false); // Ensure loading stops even if an error occurs
         setIsToastShown(false);
@@ -91,9 +91,12 @@ const Notification = () => {
                   quantity,
                   total_employees,
                 },
-                index
+                index,
               ) => (
-                <Card key={index} className="w-full shadow-lg border rounded-lg">
+                <Card
+                  key={index}
+                  className="w-full shadow-lg border rounded-lg"
+                >
                   <CardBody className="p-4">
                     <Typography variant="h6" color="blue-gray" className="mb-2">
                       Notification {index + 1}
@@ -142,7 +145,7 @@ const Notification = () => {
                     </Typography>
                   </CardBody>
                 </Card>
-              )
+              ),
             )
           ) : (
             <Typography variant="small" color="gray" className="mt-4">
@@ -156,3 +159,4 @@ const Notification = () => {
 };
 
 export default Notification;
+

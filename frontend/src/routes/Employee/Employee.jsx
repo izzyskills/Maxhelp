@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  Typography,
-  Button,
-} from "@material-tailwind/react";
-import {getUnitName} from '../../api/helper'
+import { getUnitName } from "../../api/helper";
 import { Pie } from "react-chartjs-2";
 import { FaTrash } from "react-icons/fa";
 import { RxUpdate } from "react-icons/rx";
@@ -30,10 +25,12 @@ const TABLE_HEAD = [
   "Gender",
   "Unit Name",
 
-//   "Update",
+  //   "Update",
   "Delete",
 ];
 import Loader from "../../components/Loader/Loader";
+import { Card } from "@nextui-org/card";
+import { Button } from "@nextui-org/button";
 
 // Register necessary chart elements
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -87,10 +84,10 @@ const Employee = () => {
         setEmployees(employeeList);
 
         const maleCount = employeeList.filter(
-          (emp) => emp.gender === "Male"
+          (emp) => emp.gender === "Male",
         ).length;
         const femaleCount = employeeList.filter(
-          (emp) => emp.gender === "Female"
+          (emp) => emp.gender === "Female",
         ).length;
         setGenderCounts({ male: maleCount, female: femaleCount });
 
@@ -128,7 +125,7 @@ const Employee = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true); // Show loader
-  
+
     try {
       // If editing an employee, update it, else create a new employee
       let response;
@@ -136,29 +133,35 @@ const Employee = () => {
         // Update existing employee
         response = await updateEmployee(employeeToEdit.id, formData, token); // Use employeeToEdit.id
         const updatedEmployee = response.data;
-  
+
         setEmployees((prevEmployees) =>
           prevEmployees.map((emp) =>
-            emp.id === updatedEmployee.id ? { ...emp, ...updatedEmployee } : emp
-          )
+            emp.id === updatedEmployee.id
+              ? { ...emp, ...updatedEmployee }
+              : emp,
+          ),
         );
         toast.success("Employee updated successfully");
       } else {
         // Create new employee
         response = await createEmployee(formData, token);
         const newEmployee = response.data;
-  
+
         setEmployees((prevEmployees) => [...prevEmployees, newEmployee]);
         toast.success("Employee created successfully");
       }
-  
+
       const newGenderCounts = {
         male:
-          response.data.gender === "Male" ? genderCounts.male + 1 : genderCounts.male,
+          response.data.gender === "Male"
+            ? genderCounts.male + 1
+            : genderCounts.male,
         female:
-          response.data.gender === "Female" ? genderCounts.female + 1 : genderCounts.female,
+          response.data.gender === "Female"
+            ? genderCounts.female + 1
+            : genderCounts.female,
       };
-  
+
       setGenderCounts(newGenderCounts);
       setGenderChartData({
         labels: ["Male", "Female"],
@@ -179,7 +182,6 @@ const Employee = () => {
     }
   };
 
-
   const handleEditEmployee = (employee) => {
     setEmployeeToEdit(employee); // Ensure this is not null
     setFormData({
@@ -192,7 +194,6 @@ const Employee = () => {
     });
     setShowUpdateForm(true);
   };
-  
 
   const handleDeleteEmployee = (employeeId) => {
     setEmployeeToDelete(employeeId);
@@ -206,11 +207,11 @@ const Employee = () => {
       toast.success("Employee deleted successfully");
 
       setEmployees((prevEmployees) =>
-        prevEmployees.filter((employee) => employee.id !== employeeToDelete)
+        prevEmployees.filter((employee) => employee.id !== employeeToDelete),
       );
 
       const deletedEmployee = employees.find(
-        (emp) => emp.id === employeeToDelete
+        (emp) => emp.id === employeeToDelete,
       );
       if (deletedEmployee) {
         setGenderCounts((prevCounts) => ({
@@ -248,8 +249,6 @@ const Employee = () => {
   const cancelDelete = () => {
     setShowDeleteModal(false);
   };
-
-
 
   const handleCancel = () => {
     setFormData({
@@ -401,7 +400,7 @@ const Employee = () => {
                     <td className="border-b border-blue-gray-100 p-4 text-sm text-gray-700 whitespace-nowrap">
                       {getUnitName(row.unit_id)}
                     </td>
-{/* 
+                    {/* 
                     <td className="border-b border-blue-gray-100 p-4 text-sm text-gray-700">
                       {/* Delete Icon *
                       <RxUpdate

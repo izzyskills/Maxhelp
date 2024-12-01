@@ -1,8 +1,7 @@
+import { Card } from "@nextui-org/card";
 import React from "react";
-import { Card, Typography } from "@material-tailwind/react";
 
 const DashboardDetails = ({ title, subtitle, summaryData }) => {
-  
   return (
     <div>
       {/* Title and Subtitle */}

@@ -1,10 +1,6 @@
+import { Card, CardBody } from "@nextui-org/card";
 import units from "../../api/unit";
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Typography,
-} from "@material-tailwind/react";
+
 const Units = () => {
   return (
     <div className="container mt-[2.5rem] mx-auto px-4 py-2 lg:px-8 lg:py-4 cursor-pointer w-full ">
@@ -15,13 +11,19 @@ const Units = () => {
             className="shadow-lg hover:shadow-xl py-2 px-2 transition-shadow"
           >
             <div className="">
-              <Typography variant="h5" color="" className="text-[1rem] text-center">
+              <Typography
+                variant="h5"
+                color=""
+                className="text-[1rem] text-center"
+              >
                 {unit.unit_name}
               </Typography>
             </div>
 
-            <CardBody className="flex items-start
-            flex-col gap-2">
+            <CardBody
+              className="flex items-start
+            flex-col gap-2"
+            >
               <Typography variant="h6" className="mb-3">
                 <strong>Location:</strong> {unit.unit_location}
               </Typography>

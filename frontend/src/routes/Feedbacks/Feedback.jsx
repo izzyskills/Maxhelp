@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardBody, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { listFeedbacks } from "../../api/api"; // Import the API function
 import Loader from "../../components/Loader/Loader"; // Ensure correct import
 import DashboardDetails from "../../components/DashboardDetails/DashboardDetails";
+import { Card, CardBody } from "@nextui-org/card";
 const Feedback = () => {
   const [feedbackData, setFeedbackData] = useState([]);
   const [totalFeedbacks, setTotalFeedbacks] = useState(0);
@@ -67,7 +67,7 @@ const Feedback = () => {
       {/* Main Content */}
       <div className="w-full md:w-[75%] ml-[20%] p-8 overflow-y-auto">
         <DashboardDetails
-                    title={`MaxHelp Business ${role !== "admin" ? "Employee" : "Admin"} - Dashboard`}
+          title={`MaxHelp Business ${role !== "admin" ? "Employee" : "Admin"} - Dashboard`}
           subtitle="Feedback Details Page"
           summaryData={summaryData}
         />
@@ -78,7 +78,7 @@ const Feedback = () => {
             feedbackData.map(
               (
                 { id, customer_name, unit_name, comment, rating, created_at },
-                index
+                index,
               ) => (
                 <Card key={id} className="w-full shadow-lg border rounded-lg">
                   <CardBody className="p-4">
@@ -119,7 +119,7 @@ const Feedback = () => {
                     </Typography>
                   </CardBody>
                 </Card>
-              )
+              ),
             )
           ) : (
             <Typography variant="small" color="gray" className="mt-4">

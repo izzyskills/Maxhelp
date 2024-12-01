@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {
-  Input,
-  Select,
-  Option,
-  Button,
-  Typography,
-  Card,
-} from "@material-tailwind/react";
+import { Button } from "@nextui-org/button";
+import { Card } from "@nextui-org/card";
+import { Input } from "@nextui-org/input";
 import { toast } from "react-toastify"; // Importing the toast function
+import { Select, SelectItem } from "@nextui-org/select";
 
 const EmployeeForm = ({
   formData,
@@ -26,7 +22,7 @@ const EmployeeForm = ({
     { value: "4", label: "Bookshop" },
   ]);
 
-  const [availableGenders] = useState([
+  const [availableGenders, setAvailableGenders] = useState([
     { value: "Male", label: "Male" },
     { value: "Female", label: "Female" },
   ]);
@@ -49,7 +45,7 @@ const EmployeeForm = ({
     }
     if (name === "gender") {
       setAvailableGenders(
-        availableGenders.filter((gender) => gender.value !== value)
+        availableGenders.filter((gender) => gender.value !== value),
       );
     }
   };
@@ -58,20 +54,20 @@ const EmployeeForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate required fields
+    // Validate isRequired fields
     if (
       !formData.name ||
       !formData.email ||
       !formData.unit_id ||
       !formData.gender
     ) {
-      toast.error("All fields are required except for password.");
+      toast.error("All fields are isRequired except for password.");
       return;
     }
 
     // If updating, password is optional, show a warning if it's empty
     if (!isUpdate && !formData.password) {
-      toast.error("Password is required for creating a new employee.");
+      toast.error("Password is isRequired for creating a new employee.");
       return;
     }
 
@@ -92,7 +88,7 @@ const EmployeeForm = ({
             value={formData.name}
             onChange={handleInputChange}
             name="name"
-            required
+            isRequired
           />
 
           {/* Employee Email */}
@@ -102,7 +98,7 @@ const EmployeeForm = ({
             onChange={handleInputChange}
             name="email"
             type="email"
-            required
+            isRequired
           />
 
           {/* Password (Optional for Update) */}
@@ -113,7 +109,7 @@ const EmployeeForm = ({
               onChange={handleInputChange}
               name="password"
               type="password"
-              required
+              isRequired
             />
           )}
 
@@ -124,7 +120,7 @@ const EmployeeForm = ({
             onChange={handleInputChange}
             name="role"
             type="role"
-            required
+            isRequired
           />
 
           {/* Unit Selection */}
@@ -132,12 +128,12 @@ const EmployeeForm = ({
             label="Unit"
             value={formData.unit_id}
             onChange={(value) => handleSelectChange(value, "unit_id")}
-            required
+            isRequired
           >
             {availableUnits.map((unit) => (
-              <Option key={unit.value} value={unit.value}>
+              <SelectItem key={unit.value} value={unit.value}>
                 {unit.label}
-              </Option>
+              </SelectItem>
             ))}
           </Select>
 
@@ -146,12 +142,12 @@ const EmployeeForm = ({
             label="Gender"
             value={formData.gender}
             onChange={(value) => handleSelectChange(value, "gender")}
-            required
+            isRequired
           >
             {availableGenders.map((gender) => (
-              <Option key={gender.value} value={gender.value}>
+              <SelectItem key={gender.value} value={gender.value}>
                 {gender.label}
-              </Option>
+              </SelectItem>
             ))}
           </Select>
 

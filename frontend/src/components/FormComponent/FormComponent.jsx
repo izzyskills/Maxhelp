@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Card, Input, Button, Typography } from "@material-tailwind/react";
+import { Button } from "@nextui-org/button";
+import { Card } from "@nextui-org/card";
+import { Input } from "@nextui-org/input";
 import { toast } from "react-toastify"; // Import react-toastify
 import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 import Loader from "../Loader/Loader";
@@ -14,22 +16,22 @@ const FormComponent = ({ title, fields, onSubmit, submitButtonText }) => {
     // Collect form data
     const formData = Object.fromEntries(new FormData(e.target).entries());
 
-    // Check for required fields
+    // Check for isRequired fields
     const missingFields = fields.filter(
-      (field) => field.required && !formData[field.name]
+      (field) => field.isRequired && !formData[field.name],
     );
 
     if (missingFields.length > 0) {
-      // If there are missing required fields, show a toast error
+      // If there are missing isRequired fields, show a toast error
       toast.error(
-        `Please fill out the required fields: ${missingFields
+        `Please fill out the isRequired fields: ${missingFields
           .map((field) => field.label)
-          .join(", ")}`
+          .join(", ")}`,
       );
       return; // Don't proceed with form submission
     }
 
-    // Proceed with the form submission if all required fields are filled
+    // Proceed with the form submission if all isRequired fields are filled
     onSubmit(formData)
       .then(() => {
         toast.success("Form submitted successfully!"); // Success toast

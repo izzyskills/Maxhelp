@@ -1,19 +1,19 @@
-import { Button } from "@material-tailwind/react";
 import Units from "../../components/Units/Units";
 import FeedbackCarousel from "../../components/FeedbackCarousel/FeedbackCarousel";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@nextui-org/button";
 
 const HomePage = () => {
-     const navigate = useNavigate();
-     const redirect = () => {
-       navigate("/onboarding");
-     };
+  const navigate = useNavigate();
+  const redirect = () => {
+    navigate("/onboarding");
+  };
   return (
     <div className="homePage container mx-auto px-4 py-2 lg:px-8 lg:py-4 text-blue-gray-900 my-[4rem]">
       <div className="mt-[3rem] mb-[3rem]">
         <div className="flex items-center justify-between gap-5">
-          <div class="left flex flex-col items-start gap-3 space-y-3">
-            <h2 class="text-[2rem]">
+          <div className="left flex flex-col items-start gap-3 space-y-3">
+            <h2 className="text-[2rem]">
               Welcome to{" "}
               <span className="text-blue-gray-600">MaxHelp Business </span>
               Enterprises
@@ -25,7 +25,9 @@ const HomePage = () => {
               enabling you to achieve your business goals effortlessly.
             </p>
             <div className="">
-              <Button variant="outlined" onClick={redirect}>Get Started</Button>
+              <Button variant="outlined" onClick={redirect}>
+                Get Started
+              </Button>
             </div>
           </div>
 
@@ -48,8 +50,7 @@ const HomePage = () => {
             <div className="text-center uppercase">
               <h4>Clients Feedback and Testimonials </h4>
             </div>
-            <FeedbackCarousel/>
-
+            <FeedbackCarousel />
           </div>
         </div>
       </div>
