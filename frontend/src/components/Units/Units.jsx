@@ -11,23 +11,17 @@ const Units = () => {
             className="shadow-lg hover:shadow-xl py-2 px-2 transition-shadow"
           >
             <div className="">
-              <Typography
-                variant="h5"
-                color=""
-                className="text-[1rem] text-center"
-              >
-                {unit.unit_name}
-              </Typography>
+              <h5 className="text-[1rem] text-center">{unit.unit_name}</h5>
             </div>
 
             <CardBody
               className="flex items-start
             flex-col gap-2"
             >
-              <Typography variant="h6" className="mb-3">
+              <h6 className="mb-3">
                 <strong>Location:</strong> {unit.unit_location}
-              </Typography>
-              <Typography>Description: {unit.description}</Typography>
+              </h6>
+              <p>Description: {unit.description}</p>
             </CardBody>
           </Card>
         ))}

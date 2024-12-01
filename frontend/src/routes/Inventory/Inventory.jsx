@@ -286,13 +286,9 @@ const Inventory = () => {
           <Card className="h-full w-full shadow-none relative">
             <div className="flex items-center justify-between">
               <div className="left">
-                <Typography
-                  variant="h5"
-                  color="blue-gray"
-                  className="mb-4 text-left"
-                >
+                <h5 className="text-blue-gray-700 mb-4 text-left">
                   Inventory List
-                </Typography>
+                </h5>
               </div>
 
               {role === "admin" && (

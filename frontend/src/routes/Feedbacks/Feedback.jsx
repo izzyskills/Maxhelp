@@ -82,49 +82,31 @@ const Feedback = () => {
               ) => (
                 <Card key={id} className="w-full shadow-lg border rounded-lg">
                   <CardBody className="p-4">
-                    <Typography variant="h6" color="blue-gray" className="mb-2">
+                    <h6 className="text-blue-gray mb-2">
                       Feedback {index + 1}
-                    </Typography>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-1"
-                    >
+                    </h6>
+                    <p className="text-sm text-blue-gray-700 mb-1">
                       <strong>Customer Name:</strong> {customer_name}
-                    </Typography>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-1"
-                    >
+                    </p>
+                    <p className="text-sm text-blue-gray-700 mb-1">
                       <strong>Unit Name:</strong> {unit_name}
-                    </Typography>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-1"
-                    >
+                    </p>
+                    <p className="text-sm text-blue-gray-700 mb-1">
                       <strong>Comment:</strong> {comment}
-                    </Typography>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-1"
-                    >
+                    </p>
+                    <p className="text-sm text-blue-gray-700 mb-1">
                       <strong>Rating:</strong> {rating} / 5
-                    </Typography>
-                    <Typography variant="small" color="blue-gray">
+                    </p>
+                    <p className="text-sm text-blue-gray-700">
                       <strong>Created At:</strong>{" "}
                       {new Date(created_at).toLocaleString()}
-                    </Typography>
+                    </p>
                   </CardBody>
                 </Card>
               ),
             )
           ) : (
-            <Typography variant="small" color="gray" className="mt-4">
-              No feedback available.
-            </Typography>
+            <p className="mt-4 text-sm">No feedback available.</p>
           )}
         </div>
       </div>

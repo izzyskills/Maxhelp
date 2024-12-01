@@ -12,28 +12,18 @@ const Footer = () => {
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {/* Column 1: Brand */}
           <div>
-            <Typography
-              as="h2"
-              variant="h6"
-              className="mb-4 font-bold text-lg text-white"
-            >
+            <h6 className="mb-4 font-bold text-lg text-white">
               MaxHelp Enterprises
-            </Typography>
-            <Typography className="text-sm text-blue-gray-300">
+            </h6>
+            <p className="text-sm text-blue-gray-300">
               Empowering businesses with reliable solutions and innovative
               ideas. Your success is our priority.
-            </Typography>
+            </p>
           </div>
 
           {/* Column 2: Navigation Links */}
           <div>
-            <Typography
-              as="h2"
-              variant="h6"
-              className="mb-4 font-bold text-lg text-white"
-            >
-              Quick Links
-            </Typography>
+            <h6 className="mb-4 font-bold text-lg text-white">Quick Links</h6>
             <ul className="space-y-2">
               <li className="flex space-x-3 items-center">
                 <TbHomeDown />
@@ -55,13 +45,7 @@ const Footer = () => {
 
           {/* Column 3: Social Links */}
           <div>
-            <Typography
-              as="h2"
-              variant="h6"
-              className="mb-4 font-bold text-lg text-white"
-            >
-              Follow Us
-            </Typography>
+            <h6 className="mb-4 font-bold text-lg text-white">Follow Us</h6>
             <div className="flex items-center gap-4">
               <Link
                 to="#"
@@ -83,9 +67,9 @@ const Footer = () => {
 
         {/* Footer Bottom */}
         <div className="mt-8 border-t border-blue-900 pt-4 text-center">
-          <Typography className="text-sm text-blue-gray-300">
+          <p className="text-sm text-blue-gray-300">
             &copy; 2024 MaxHelp Enterprises. All rights reserved.
-          </Typography>
+          </p>
           <Button
             variant="text"
             size="sm"

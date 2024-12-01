@@ -297,9 +297,9 @@ const Employee = () => {
             shadow={2}
             className="flex flex-col items-center p-6"
           >
-            <Typography variant="h5" color="blue-gray" className="mb-4">
+            <h5 className="text-blue-gray mb-4">
               Employee Gender Distribution
-            </Typography>
+            </h5>
             <Pie
               data={genderChartData}
               options={{
@@ -348,13 +348,7 @@ const Employee = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-[2rem]">
           <Card className="h-full w-full shadow-none relative">
             <div className="flex items-center justify-between">
-              <Typography
-                variant="h5"
-                color="blue-gray"
-                className="mb-4 text-left"
-              >
-                Employee List
-              </Typography>
+              <h5 className="text-blue-gray mb-4 text-left">Employee List</h5>
 
               <div className="right absolute right-[-15%] md:right-[-45%]">
                 <div className="flex justify-end mb-6">

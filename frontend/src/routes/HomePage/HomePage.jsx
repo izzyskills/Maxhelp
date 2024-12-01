@@ -18,8 +18,8 @@ const HomePage = () => {
               <span className="text-blue-gray-600">MaxHelp Business </span>
               Enterprises
             </h2>
-            <h4 class="text-[1.3rem]">Empowering Your Journey</h4>
-            <p class=" text-[0.8rem]">
+            <h4 className="text-[1.3rem]">Empowering Your Journey</h4>
+            <p className=" text-[0.8rem]">
               Your number one solution provider for innovative, reliable, and
               results-driven services. At MaxHelp, we prioritize your success,
               enabling you to achieve your business goals effortlessly.

@@ -150,10 +150,10 @@ const Dashboard = () => {
     <div className="min-h-screen flex px-4 py-2 lg:px-8 lg:py-4">
       <div className="w-full md:w-[75%] ml-[20%] p-8 overflow-y-auto">
         <div className="mb-8 text-left">
-          <Typography variant="h3" color="blue-gray">
+          <h3 color="blue-gray">
             MaxHelp Business {role !== "admin" ? "Employee" : "Admin"} -
             Dashboard
-          </Typography>
+          </h3>
         </div>
 
         {/* Summary Box */}
@@ -161,52 +161,34 @@ const Dashboard = () => {
           {/* Admin-specific section */}
           {role === "admin" && (
             <Card className="flex flex-col w-[100%] h-[150px] items-start justify-center p-4">
-              <Typography
-                variant="h6"
-                color="gray"
-                className="mb-2 text-left text-[0.9rem]"
-              >
+              <h6 color="gray" className="mb-2 text-left text-[0.9rem]">
                 Total Employees
-              </Typography>
-              <Typography variant="h4" color="blue-gray">
-                {totalEmployee}
-              </Typography>
+              </h6>
+              <h4 color="blue-gray">{totalEmployee}</h4>
             </Card>
           )}
 
           {/* Admin-only Business Units */}
           {role === "admin" && (
             <Card className="flex flex-col items-start h-[150px] justify-center p-4">
-              <Typography
-                variant="h6"
-                color="gray"
-                className="mb-2 text-left text-[0.9rem]"
-              >
+              <h6 className="text-gray mb-2 text-left text-[0.9rem]">
                 Business Units
-              </Typography>
-              <Typography variant="h4" color="blue-gray">
-                {businessUnitsCount}
-              </Typography>
+              </h6>
+              <h4 className="text-blue-gray">{businessUnitsCount}</h4>
             </Card>
           )}
 
           {/* Common for all roles */}
           <Card className="flex flex-col items-start h-[150px] justify-center p-4">
-            <Typography variant="h6" color="gray" className="mb-2">
-              Total Sales
-            </Typography>
-            <Typography variant="h4" color="blue-gray">
-              ${totalSales}
-            </Typography>
+            <h6 className="text-gray mb-2">Total Sales</h6>
+            <h6 className="text-blue-gray">₦{totalSales}</h6>
           </Card>
         </div>
 
         {/* Line Chart for Sales Progress */}
         <div className="flex justify-center mt-8">
           <Card className="w-full max-w-md p-6">
-            <Typography variant="h5" color="blue-gray" className="mb-4">
-              Sales Progress
-            </Typography>
+            <h5 className="text-blue-gray mb-4">Sales Progress</h5>
             <Line data={salesData} options={{ responsive: true }} />
           </Card>
         </div>
@@ -224,9 +206,7 @@ const Dashboard = () => {
         {showForm && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
             <Card className="w-full max-w-md p-6">
-              <Typography variant="h5" color="blue-gray" className="mb-4">
-                Create Business Unit
-              </Typography>
+              <h5 className="text-blue-gray mb-4">Create Business Unit</h5>
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                   <Input

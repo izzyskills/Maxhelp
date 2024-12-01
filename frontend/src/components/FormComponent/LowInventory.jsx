@@ -58,9 +58,7 @@ const LowInventory = ({ onSuccess, onError, onClose }) => {
   return (
     <div className="mx-auto p-4 fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 gap-5">
       <Card className="p-6 bg-white shadow-lg">
-        <Typography variant="h4" color="blue-gray">
-          Report Low Inventory
-        </Typography>
+        <h4 className="text-blue-gray">Report Low Inventory</h4>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
@@ -72,7 +70,7 @@ const LowInventory = ({ onSuccess, onError, onClose }) => {
               type="text"
               size="lg"
               {...register("inventory_name", {
-                isRequired: "Inventory Name is isRequired",
+                isRequired: "Inventory Name is required",
               })}
             />
             {errors.inventory_name && (

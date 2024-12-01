@@ -1,16 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import {
-//   List,
-//   ListItem,
-//   ListItemPrefix,
-//   Typography,
-//   Button,
-// } from "@material-tailwind/react";
 import { FaHome, FaBox, FaUsers, FaBell, FaBackward } from "react-icons/fa";
 import { CiLogout } from "react-icons/ci";
 import { FiMenu } from "react-icons/fi"; // Hamburger icon
 import { IoMdLogOut } from "react-icons/io";
+import { Button } from "@nextui-org/button";
 
 const Sidebar = ({ username, onLogout }) => {
   const navigate = useNavigate();
@@ -60,100 +54,90 @@ const Sidebar = ({ username, onLogout }) => {
       </div>
 
       {!sidebarOpen && (
-        <Typography
-          variant="h5"
-          color="white"
-          className="mb-8 hidden md:block text-center text-[1.03rem]"
-        >
+        <h5 className="mb-8 hidden md:block text-center text-[1.03rem] text-white">
           Welcome Back {username.charAt(0).toUpperCase() + username.slice(1)}
-        </Typography>
+        </h5>
       )}
       {sidebarOpen && (
-        <Typography variant="h6" color="white" className="mb-8 text-center">
+        <h6 className="mb-8 text-center text-white">
           Welcome Back {username.charAt(0).toUpperCase() + username.slice(1)}
-        </Typography>
+        </h6>
       )}
 
       {/* Sidebar Navigation */}
-      <List className="w-full space-y-4 text-white">
-        {/* Sidebar items go here */}
-
-        <div
-          className="cursor-pointer hover:bg-white hover:bg-opacity-30 transition-colors duration-300 px-4 py-2 rounded-md flex"
+      <Listbox variant="flat" aria-label="Sidebar menu">
+        <ListboxItem
+          key="dashboard"
+          description="Go to dashboard"
+          startContent={<FaHome className="text-white" />}
           onClick={() => handleNavigate("/dashboard")}
         >
-          <ListItemPrefix>
-            <FaHome className="text-white" />
-          </ListItemPrefix>
           <span className={`${sidebarOpen ? "block" : "hidden"} md:block`}>
             Dashboard
           </span>
-        </div>
+        </ListboxItem>
 
-        <div
-          className="cursor-pointer hover:bg-white hover:bg-opacity-30 transition-colors duration-300 px-4 py-2 rounded-md flex"
+        <ListboxItem
+          key="inventory"
+          description="View inventory"
+          startContent={<FaBox className="text-white" />}
           onClick={() => handleNavigate("/inventory")}
         >
-          <ListItemPrefix>
-            <FaBox className="text-white" />
-          </ListItemPrefix>
           <span className={`${sidebarOpen ? "block" : "hidden"} md:block`}>
             Inventory
           </span>
-        </div>
+        </ListboxItem>
 
         {role !== "employee" && (
-          <div
-            className="cursor-pointer hover:bg-white hover:bg-opacity-30 transition-colors duration-300 px-4 py-2 rounded-md flex"
+          <ListboxItem
+            key="admin-employees"
+            description="Manage employees"
+            startContent={<FaUsers className="text-white" />}
             onClick={() => handleNavigate("/admin-employees")}
           >
-            <ListItemPrefix>
-              <FaUsers className="text-white" />
-            </ListItemPrefix>
             <span className={`${sidebarOpen ? "block" : "hidden"} md:block`}>
               Employee
             </span>
-          </div>
+          </ListboxItem>
         )}
 
-        <div
-          className="cursor-pointer hover:bg-white hover:bg-opacity-30 transition-colors duration-300 px-4 py-2 rounded-md flex"
+        <ListboxItem
+          key="feedbacks"
+          description="View feedbacks"
+          startContent={<FaBackward className="text-white" />}
           onClick={() => handleNavigate("/feedbacks")}
         >
-          <ListItemPrefix>
-            <FaBackward className="text-white" />
-          </ListItemPrefix>
           <span className={`${sidebarOpen ? "block" : "hidden"} md:block`}>
             Feedback
           </span>
-        </div>
+        </ListboxItem>
 
         {role !== "employee" && (
-          <div
-            className="cursor-pointer hover:bg-white hover:bg-opacity-30 transition-colors duration-300 px-4 py-2 rounded-md flex"
+          <ListboxItem
+            key="notifications"
+            description="View notifications"
+            startContent={<FaBell className="text-white" />}
             onClick={() => handleNavigate("/notifications")}
           >
-            <ListItemPrefix>
-              <FaBell className="text-white" />
-            </ListItemPrefix>
             <span className={`${sidebarOpen ? "block" : "hidden"} md:block`}>
               Notifications
             </span>
-          </div>
+          </ListboxItem>
         )}
 
-        <ListItem
-          className="cursor-pointer hover:bg-white hover:bg-opacity-30 transition-colors duration-300 px-4 py-2 rounded-md"
+        <ListboxItem
+          key="logout"
+          description="Logout from the application"
+          startContent={<CiLogout className="text-white" />}
           onClick={handleLogout}
+          className="text-danger"
+          color="danger"
         >
-          <ListItemPrefix>
-            <CiLogout className="text-white" />
-          </ListItemPrefix>
           <span className={`${sidebarOpen ? "block" : "hidden"} md:block`}>
             Logout
           </span>
-        </ListItem>
-      </List>
+        </ListboxItem>
+      </Listbox>
     </div>
   );
 };

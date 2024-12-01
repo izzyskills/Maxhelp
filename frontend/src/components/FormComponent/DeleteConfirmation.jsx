@@ -13,9 +13,7 @@ const DeleteConfirmation = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 gap-5">
       <Card color="white" shadow={5} className="w-full max-w-md p-6">
-        <Typography variant="h5" color="blue-gray" className="mb-4">
-          {message}
-        </Typography>
+        <h5 className="text-blue-gray mb-4">{message}</h5>
         <div className="flex justify-between">
           <Button onClick={onDelete} color="red" className="mr-2">
             Yes, Delete

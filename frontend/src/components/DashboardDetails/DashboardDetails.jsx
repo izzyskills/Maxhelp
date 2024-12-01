@@ -6,12 +6,8 @@ const DashboardDetails = ({ title, subtitle, summaryData }) => {
     <div>
       {/* Title and Subtitle */}
       <div className="mb-8 text-left">
-        <Typography variant="h3" color="blue-gray">
-          {title}
-        </Typography>
-        <Typography variant="h6" color="blue-gray">
-          {subtitle}
-        </Typography>
+        <h3 className="text-blue-gray-700">{title}</h3>
+        <h6 className="text-blue-gray-700">{subtitle}</h6>
       </div>
 
       {/* Summary Box */}
@@ -23,16 +19,10 @@ const DashboardDetails = ({ title, subtitle, summaryData }) => {
             shadow={2}
             className="flex flex-col w-[100%] h-[150px] items-start justify-center p-4"
           >
-            <Typography
-              variant="h6"
-              color="gray"
-              className="mb-2 text-left text-[0.9rem]"
-            >
+            <h6 className="text-gray-700 mb-2 text-left text-[0.9rem]">
               {item.title}
-            </Typography>
-            <Typography variant="h4" color="blue-gray">
-              {item.value}
-            </Typography>
+            </h6>
+            <h4 className="text-blue-gray-700">{item.value}</h4>
           </Card>
         ))}
       </div>

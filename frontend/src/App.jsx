@@ -35,13 +35,7 @@ const App = () => {
   // Fetch username from localStorage when the app loads
   useEffect(() => {
     // Exclude routes that should not trigger login checks
-    const noLoginRequiredRoutes = [
-      "/",
-      "/about",
-      "/onboarding",
-      "/login",
-
-    ];
+    const noLoginRequiredRoutes = ["/", "/about", "/onboarding", "/login"];
 
     if (noLoginRequiredRoutes.includes(location.pathname)) {
       return; // Don't perform login check for these routes
@@ -82,20 +76,22 @@ const App = () => {
 
         <div className="flex-1">
           {/* Define Routes for the application */}
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/onboarding" element={<Onboarding />} />
-            <Route path="/admin-login" element={<AdminLogin />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/admin-employees" element={<Employee />} />
-            <Route path="/notifications" element={<Notification />} />
-            <Route path="/feedbacks" element={<Feedback />} />
-            <Route path="/inventory" element={<Inventory />} />
+          <article className="prose prose-slate dark:prose-invert">
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/onboarding" element={<Onboarding />} />
+              <Route path="/admin-login" element={<AdminLogin />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/admin-employees" element={<Employee />} />
+              <Route path="/notifications" element={<Notification />} />
+              <Route path="/feedbacks" element={<Feedback />} />
+              <Route path="/inventory" element={<Inventory />} />
 
-            {/* Employee Routes */}
-            <Route path="/login" element={<EmployeeLogin />} />
-          </Routes>
+              {/* Employee Routes */}
+              <Route path="/login" element={<EmployeeLogin />} />
+            </Routes>
+          </article>
         </div>
       </div>
 

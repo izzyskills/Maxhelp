@@ -48,9 +48,7 @@ const FormComponent = ({ title, fields, onSubmit, submitButtonText }) => {
 
   return (
     <Card color="transparent" shadow={false}>
-      <Typography variant="h4" color="blue-gray" className="text-center">
-        {title}
-      </Typography>
+      <h4 className="text-blue-gray text-center">{title}</h4>
       <form
         className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96 px-4 py-2 lg:px-8 lg:py-4"
         onSubmit={handleSubmit}
@@ -58,9 +56,7 @@ const FormComponent = ({ title, fields, onSubmit, submitButtonText }) => {
         <div className="mb-1 flex flex-col gap-6">
           {fields.map((field, index) => (
             <div key={index}>
-              <Typography variant="h6" color="blue-gray" className="-mb-3">
-                {field.label}
-              </Typography>
+              <h6 className="text-blue-gray -mb-3">{field.label}</h6>
               <Input
                 type={field.type}
                 name={field.name}

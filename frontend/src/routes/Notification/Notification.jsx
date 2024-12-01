@@ -98,59 +98,33 @@ const Notification = () => {
                   className="w-full shadow-lg border rounded-lg"
                 >
                   <CardBody className="p-4">
-                    <Typography variant="h6" color="blue-gray" className="mb-2">
+                    <h6 className="text-blue-gray-700 mb-2">
                       Notification {index + 1}
-                    </Typography>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-1"
-                    >
+                    </h6>
+                    <p className="text-sm text-blue-gray-700 mb-1">
                       <strong>Item:</strong> {inventory_item_name}
-                    </Typography>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-1"
-                    >
+                    </p>
+                    <p className="text-sm text-blue-gray-700 mb-1">
                       <strong>Message:</strong> {message}
-                    </Typography>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-1"
-                    >
+                    </p>
+                    <p className="text-sm text-blue-gray-700 mb-1">
                       <strong>Business Unit:</strong> {business_unit_name}
-                    </Typography>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-1"
-                    >
+                    </p>
+                    <p className="text-sm text-blue-gray-700 mb-1">
                       <strong>Location:</strong> {location}
-                    </Typography>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-1"
-                    >
+                    </p>
+                    <p className="text-sm text-blue-gray-700 mb-1">
                       <strong>Quantity:</strong> {quantity}
-                    </Typography>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="mb-1"
-                    >
+                    </p>
+                    <p className="text-sm text-blue-gray-700 mb-1">
                       <strong>Total Employees:</strong> {total_employees}
-                    </Typography>
+                    </p>
                   </CardBody>
                 </Card>
               ),
             )
           ) : (
-            <Typography variant="small" color="gray" className="mt-4">
-              No Notification available.
-            </Typography>
+            <p className="text-sm mt-4">No Notification available.</p>
           )}
         </div>
       </div>
@@ -159,4 +133,3 @@ const Notification = () => {
 };
 
 export default Notification;
-
