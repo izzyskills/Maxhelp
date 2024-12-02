@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getUnitName } from "../../api/helper";
-import { Pie } from "react-chartjs-2";
-import { FaTrash } from "react-icons/fa";
+import { Bar, Pie } from "react-chartjs-2";
+import { FaEdit, FaTrash } from "react-icons/fa";
 import { RxUpdate } from "react-icons/rx";
 import { Tooltip, ArcElement, Legend, Chart as ChartJS } from "chart.js";
 import {
@@ -15,22 +15,18 @@ import { toast } from "react-toastify";
 import EmployeeForm from "../../components/FormComponent/EmployeeForm";
 import DeleteConfirmation from "../../components/FormComponent/DeleteConfirmation";
 import DashboardDetails from "../../components/DashboardDetails/DashboardDetails";
-
-// Initial Pie chart data (will be updated from API)
-const TABLE_HEAD = [
-  "S/N",
-  "Name",
-  "Email",
-  "Role",
-  "Gender",
-  "Unit Name",
-
-  //   "Update",
-  "Delete",
-];
 import Loader from "../../components/Loader/Loader";
 import { Card } from "@nextui-org/card";
 import { Button } from "@nextui-org/button";
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+  Tooltip as NextUITooltip,
+} from "@nextui-org/react";
 
 // Register necessary chart elements
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -80,6 +76,8 @@ const Employee = () => {
       try {
         const response = await listEmployees(token);
         const employeeList = response?.data || [];
+        console.log(employeeList);
+        console.log(response);
 
         setEmployees(employeeList);
 
@@ -262,6 +260,50 @@ const Employee = () => {
     setShowUpdateForm(false);
     setEmployeeToEdit(null);
   };
+
+  const columns = [
+    { name: "S/N", uid: "sn" },
+    { name: "Name", uid: "name" },
+    { name: "Email", uid: "email" },
+    { name: "Role", uid: "role" },
+    { name: "Gender", uid: "gender" },
+    { name: "Unit Name", uid: "unit_name" },
+    { name: "Actions", uid: "actions" },
+  ];
+
+  const renderCell = (item, columnKey) => {
+    const cellValue = item[columnKey];
+    switch (columnKey) {
+      case "sn":
+        return item.index + 1;
+      case "unit_name":
+        return getUnitName(item.unit_id);
+      case "actions":
+        return (
+          <div className="relative flex items-center gap-2">
+            <NextUITooltip content="Edit employee">
+              <span
+                className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                onClick={() => handleEditEmployee(item)}
+              >
+                <FaEdit />
+              </span>
+            </NextUITooltip>
+            <NextUITooltip color="danger" content="Delete employee">
+              <span
+                className="text-lg text-danger cursor-pointer active:opacity-50"
+                onClick={() => handleDeleteEmployee(item.id)}
+              >
+                <FaTrash />
+              </span>
+            </NextUITooltip>
+          </div>
+        );
+      default:
+        return cellValue;
+    }
+  };
+
   const summaryData = [
     {
       title: "Total Male Employees",
@@ -284,35 +326,9 @@ const Employee = () => {
   return (
     <div className="min-h-screen flex px-4 py-2 lg:px-8 lg:py-4">
       <div className="w-full md:w-[75%] ml-[20%] p-8 overflow-y-auto">
-        <DashboardDetails
-          title="MaxHelp Business Admin - Dashboard"
-          subtitle="Employee Details Page and Statistics"
-          summaryData={summaryData}
-        />
-
         {/* Pie Chart for Employee Gender */}
-        <div className="flex items-start justify-center mt-[2rem]">
-          <Card
-            color="transparent"
-            shadow={2}
-            className="flex flex-col items-center p-6"
-          >
-            <h5 className="text-blue-gray mb-4">
-              Employee Gender Distribution
-            </h5>
-            <Pie
-              data={genderChartData}
-              options={{
-                responsive: true,
-                plugins: { legend: { position: "top" } },
-              }}
-              className="h-[50%] w-[50%]"
-            />
-          </Card>
-        </div>
 
         {/* Popup Form */}
-
         {showForm && (
           <EmployeeForm
             formData={formData}
@@ -327,93 +343,67 @@ const Employee = () => {
         {/* Delete Confirmation */}
         <DeleteConfirmation
           isOpen={showDeleteModal}
-          onClose={() => setShowDeleteConfirm(false)}
+          onClose={cancelDelete}
           onDelete={confirmDelete}
         />
 
-        {/* {showUpdateForm && (
-          <EmployeeForm
-            formData={formData}
-            setFormData={setFormData}
-            onChange={handleInputChange}
-            onSubmit={handleEditEmployee}
-            onClose={handleCancel}
-            title="Update Employee Details"
-            submitButtonText="Update"
-            isUpdate={true}
-          />
-        )} */}
-
         {/* Employee Table */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-[2rem]">
+        <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 mt-[2rem]">
           <Card className="h-full w-full shadow-none relative">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-2">
               <h5 className="text-blue-gray mb-4 text-left">Employee List</h5>
 
-              <div className="right absolute right-[-15%] md:right-[-45%]">
+              <div className="">
                 <div className="flex justify-end mb-6">
-                  <Button onClick={() => setShowForm(true)} color="blue">
+                  <Button onClick={() => setShowForm(true)} color="success">
                     Create Employee
                   </Button>
                 </div>
               </div>
             </div>
 
-            <table className="min-w-full table-auto text-left">
-              <thead>
-                <tr>
-                  {TABLE_HEAD.map((head) => (
-                    <th
-                      key={head}
-                      className="border-b border-blue-gray-100 bg-blue-gray-100 px-4 py-2 text-sm font-semibold text-gray-500 whitespace-nowrap"
-                    >
-                      {head}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-
-              <tbody>
-                {employees.map((row, index) => (
-                  <tr key={row.id} className="hover:bg-blue-gray-100">
-                    <td className="border-b  border-blue-gray-100 p-4 text-sm text-gray-700">
-                      {index + 1}
-                    </td>
-                    <td className="border-b border-blue-gray-100 p-4 text-sm text-gray-700 whitespace-nowrap">
-                      {row.name}
-                    </td>
-                    <td className="border-b border-blue-gray-100 p-4 text-sm text-gray-700">
-                      {row.email}
-                    </td>
-                    <td className="border-b border-blue-gray-100 p-4 text-sm text-gray-700">
-                      {row.role.charAt(0).toUpperCase() + row.role.slice(1)}
-                    </td>
-                    <td className="border-b border-blue-gray-100 p-4 text-sm text-gray-700">
-                      {row.gender}
-                    </td>
-                    <td className="border-b border-blue-gray-100 p-4 text-sm text-gray-700 whitespace-nowrap">
-                      {getUnitName(row.unit_id)}
-                    </td>
-                    {/* 
-                    <td className="border-b border-blue-gray-100 p-4 text-sm text-gray-700">
-                      {/* Delete Icon *
-                      <RxUpdate
-                        className="text-blue-gray-700 cursor-pointer hover:text-blue-gray-600"
-                        onClick={() => handleEditEmployee(row)}
-                      />
-                    </td>  */}
-
-                    <td className="border-b border-blue-gray-100 p-4 text-sm text-gray-700">
-                      {/* Delete Icon */}
-                      <FaTrash
-                        className="text-red-500 cursor-pointer hover:text-red-700"
-                        onClick={() => handleDeleteEmployee(row.id)}
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <Table aria-label="Employee table">
+              <TableHeader columns={columns}>
+                {(column) => (
+                  <TableColumn
+                    key={column.uid}
+                    align={column.uid === "actions" ? "center" : "start"}
+                  >
+                    {column.name}
+                  </TableColumn>
+                )}
+              </TableHeader>
+              <TableBody items={employees}>
+                {(item, index) => (
+                  <TableRow key={item.id}>
+                    {(columnKey) => (
+                      <TableCell>
+                        {renderCell({ ...item, index }, columnKey)}
+                      </TableCell>
+                    )}
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </Card>
+        </div>
+        <div className="flex items-start justify-center mt-[2rem]">
+          <Card
+            color="transparent"
+            shadow={2}
+            className="flex flex-col items-center p-6"
+          >
+            <h5 className="text-blue-gray mb-4">
+              Employee Gender Distribution
+            </h5>
+            <Bar
+              data={genderChartData}
+              options={{
+                responsive: true,
+                plugins: { legend: { position: "top" } },
+              }}
+              className="h-[50%] w-[50%]"
+            />
           </Card>
         </div>
       </div>

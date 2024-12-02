@@ -16,6 +16,7 @@ import {
 } from "chart.js";
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
+import { Card } from "@nextui-org/card";
 
 // Register Chart.js elements
 ChartJS.register(

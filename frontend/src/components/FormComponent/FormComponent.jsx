@@ -4,11 +4,18 @@ import { Card } from "@nextui-org/card";
 import { Input } from "@nextui-org/input";
 import { toast } from "react-toastify"; // Import react-toastify
 import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
-import Loader from "../Loader/Loader";
-
+import { FaEye, FaRegEyeSlash } from "react-icons/fa6";
 // Reusable Form Component
 const FormComponent = ({ title, fields, onSubmit, submitButtonText }) => {
   const navigate = useNavigate(); // Initialize the navigate function for routing
+  const [passwordVisibility, setPasswordVisibility] = useState({});
+
+  const toggleVisibility = (fieldName) => {
+    setPasswordVisibility((prev) => ({
+      ...prev,
+      [fieldName]: !prev[fieldName],
+    }));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,14 +31,14 @@ const FormComponent = ({ title, fields, onSubmit, submitButtonText }) => {
     if (missingFields.length > 0) {
       // If there are missing isRequired fields, show a toast error
       toast.error(
-        `Please fill out the isRequired fields: ${missingFields
+        `Please fill out the required fields: ${missingFields
           .map((field) => field.label)
           .join(", ")}`,
       );
       return; // Don't proceed with form submission
     }
 
-    // Proceed with the form submission if all isRequired fields are filled
+    // Proceed with the form submission if all required fields are filled
     onSubmit(formData)
       .then(() => {
         toast.success("Form submitted successfully!"); // Success toast
@@ -47,7 +54,7 @@ const FormComponent = ({ title, fields, onSubmit, submitButtonText }) => {
   };
 
   return (
-    <Card color="transparent" shadow={false}>
+    <Card className="bg-transparent">
       <h4 className="text-blue-gray text-center">{title}</h4>
       <form
         className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96 px-4 py-2 lg:px-8 lg:py-4"
@@ -56,21 +63,33 @@ const FormComponent = ({ title, fields, onSubmit, submitButtonText }) => {
         <div className="mb-1 flex flex-col gap-6">
           {fields.map((field, index) => (
             <div key={index}>
-              <h6 className="text-blue-gray -mb-3">{field.label}</h6>
               <Input
-                type={field.type}
+                label={field.label}
+                type={passwordVisibility[field.name] ? "text" : field.type}
                 name={field.name}
                 size="lg"
                 placeholder={field.placeholder}
-                className="!border-t-blue-gray-200 focus:!border-t-gray-900"
-                labelProps={{
-                  className: "before:content-none after:content-none",
-                }}
+                endContent={
+                  field.type === "password" && (
+                    <button
+                      className="focus:outline-none"
+                      type="button"
+                      onClick={() => toggleVisibility(field.name)}
+                      aria-label="toggle password visibility"
+                    >
+                      {passwordVisibility[field.name] ? (
+                        <FaRegEyeSlash className="text-2xl text-default-400 pointer-events-none" />
+                      ) : (
+                        <FaEye className="text-2xl text-default-400 pointer-events-none" />
+                      )}
+                    </button>
+                  )
+                }
               />
             </div>
           ))}
         </div>
-        <Button type="submit" color="blue" className="mt-6" fullWidth>
+        <Button type="submit" color="primary" className="mt-6" fullWidth>
           {submitButtonText}
         </Button>
       </form>

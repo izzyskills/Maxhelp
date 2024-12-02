@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaHome, FaBox, FaUsers, FaBell, FaBackward } from "react-icons/fa";
-import { CiLogout } from "react-icons/ci";
+import {
+  FaHome,
+  FaSignOutAlt,
+  FaBox,
+  FaUsers,
+  FaBell,
+  FaBackward,
+} from "react-icons/fa";
 import { FiMenu } from "react-icons/fi"; // Hamburger icon
 import { IoMdLogOut } from "react-icons/io";
 import { Button } from "@nextui-org/button";
+import { Listbox, ListboxItem } from "@nextui-org/listbox";
 
 const Sidebar = ({ username, onLogout }) => {
   const navigate = useNavigate();
@@ -35,7 +42,7 @@ const Sidebar = ({ username, onLogout }) => {
     <div
       className={`${
         sidebarOpen ? "w-[250px]" : "w-[100px]"
-      } fixed top-0 left-0 h-full bg-blue-900 p-4 justify-center space-y-6 flex items-start flex-col transition-width z-10 duration-300 md:w-[190px] lg:w-[250px]`}
+      } fixed top-0 left-0 h-full bg-primary-50 p-4 justify-center space-y-6 flex items-start flex-col transition-width z-10 duration-300 md:w-[190px] lg:w-[250px]`}
     >
       <div className="flex flex-col justify-between items-center w-full">
         {/* Hamburger Menu for small screens */}
@@ -68,7 +75,6 @@ const Sidebar = ({ username, onLogout }) => {
       <Listbox variant="flat" aria-label="Sidebar menu">
         <ListboxItem
           key="dashboard"
-          description="Go to dashboard"
           startContent={<FaHome className="text-white" />}
           onClick={() => handleNavigate("/dashboard")}
         >
@@ -79,7 +85,6 @@ const Sidebar = ({ username, onLogout }) => {
 
         <ListboxItem
           key="inventory"
-          description="View inventory"
           startContent={<FaBox className="text-white" />}
           onClick={() => handleNavigate("/inventory")}
         >
@@ -91,7 +96,6 @@ const Sidebar = ({ username, onLogout }) => {
         {role !== "employee" && (
           <ListboxItem
             key="admin-employees"
-            description="Manage employees"
             startContent={<FaUsers className="text-white" />}
             onClick={() => handleNavigate("/admin-employees")}
           >
@@ -103,7 +107,6 @@ const Sidebar = ({ username, onLogout }) => {
 
         <ListboxItem
           key="feedbacks"
-          description="View feedbacks"
           startContent={<FaBackward className="text-white" />}
           onClick={() => handleNavigate("/feedbacks")}
         >
@@ -115,7 +118,6 @@ const Sidebar = ({ username, onLogout }) => {
         {role !== "employee" && (
           <ListboxItem
             key="notifications"
-            description="View notifications"
             startContent={<FaBell className="text-white" />}
             onClick={() => handleNavigate("/notifications")}
           >
@@ -127,8 +129,7 @@ const Sidebar = ({ username, onLogout }) => {
 
         <ListboxItem
           key="logout"
-          description="Logout from the application"
-          startContent={<CiLogout className="text-white" />}
+          startContent={<FaSignOutAlt className="text-white" />}
           onClick={handleLogout}
           className="text-danger"
           color="danger"

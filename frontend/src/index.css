@@ -7,14 +7,3 @@
   padding: 0;
   box-sizing: border-box;
 }
-
-@layer base {
-  body {
-    font-family: "Poppins", sans-serif;
-    background-color: #f5f5f5;
-    background-color: #333;
-  }
-  h1 {
-    @apply font-bold leading-snug tracking-tight text-slate-800 mx-auto my-6 w-full text-2xl lg:max-w-3xl lg:text-5xl;
-  }
-}

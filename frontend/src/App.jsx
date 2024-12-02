@@ -64,7 +64,7 @@ const App = () => {
   ].includes(location.pathname);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen min-w-full prose dark:prose-invert dark text-foreground bg-background">
       {/* Navbar: Conditionally render based on current route */}
       {showNavbarFooter && <NavbarList />}
 
@@ -76,22 +76,20 @@ const App = () => {
 
         <div className="flex-1">
           {/* Define Routes for the application */}
-          <article className="prose prose-slate dark:prose-invert">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/onboarding" element={<Onboarding />} />
-              <Route path="/admin-login" element={<AdminLogin />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/admin-employees" element={<Employee />} />
-              <Route path="/notifications" element={<Notification />} />
-              <Route path="/feedbacks" element={<Feedback />} />
-              <Route path="/inventory" element={<Inventory />} />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/admin-login" element={<AdminLogin />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/admin-employees" element={<Employee />} />
+            <Route path="/notifications" element={<Notification />} />
+            <Route path="/feedbacks" element={<Feedback />} />
+            <Route path="/inventory" element={<Inventory />} />
 
-              {/* Employee Routes */}
-              <Route path="/login" element={<EmployeeLogin />} />
-            </Routes>
-          </article>
+            {/* Employee Routes */}
+            <Route path="/login" element={<EmployeeLogin />} />
+          </Routes>
         </div>
       </div>
 

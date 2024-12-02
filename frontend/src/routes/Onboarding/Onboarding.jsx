@@ -28,7 +28,7 @@ const Onboarding = () => {
   }
 
   return (
-    <div className="onboarding min-h-screen bg-gray-100 flex md:flex-row">
+    <div className="onboarding min-h-screen flex md:flex-row">
       {/* Left Section */}
       <div className="left w-full md:w-1/2 flex flex-col justify-center px-8 py-6">
         <h4 className=" font-bold mb-6 text-center md:text-left">
@@ -38,7 +38,7 @@ const Onboarding = () => {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 cursor-pointer">
           {/* Admin Option */}
           <div
-            className="flex flex-col items-center space-y-2 p-4 bg-white rounded-lg w-[90%] mx-auto md:w-full hover:-translate-y-10 transition-all duration-100 ease-in-out"
+            className="flex flex-col items-center space-y-2 p-4 bg-default-100 rounded-lg w-[90%] mx-auto md:w-full hover:-translate-y-10 transition-all duration-100 ease-in-out"
             onClick={AdminRedirect}
           >
             <FaUser className="text-blue-gray-900 text-2xl" />
@@ -50,7 +50,7 @@ const Onboarding = () => {
 
           {/* Employee Option */}
           <div
-            className="flex flex-col items-center space-y-2 p-4 bg-white rounded-lg w-[90%] mx-auto hover:-translate-y-10  transition-all duration-100 ease-in-out"
+            className="flex flex-col items-center space-y-2 p-4 bg-default-100 rounded-lg w-[90%] mx-auto hover:-translate-y-10  transition-all duration-100 ease-in-out"
             onClick={EmployeeRedirect}
           >
             <FaUserTie className="text-blue-gray-900 text-2xl" />
@@ -63,8 +63,8 @@ const Onboarding = () => {
       </div>
 
       {/* Right Section */}
-      <div className="hidden right md:w-1/2 md:flex items-center justify-center py-6  md:bg-blue-900 sm:bg-transparent">
-        <h3 className="text-white font-bold text-center sm:text-gray-800 md:text-white">
+      <div className="hidden right md:w-1/2 md:flex items-center justify-center py-6  md:bg-primary-100 sm:bg-transparent">
+        <h3 className="font-bold text-center sm:text-default-800 md:text-default">
           Welcome to MaxHelp
         </h3>
       </div>

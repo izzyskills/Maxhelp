@@ -31,7 +31,7 @@ const NavbarList = () => {
   };
 
   const navList = (
-    <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+    <ul className="mt-2 mb-4 flex flex-col gap-2 md:mb-0 md:mt-0 md:flex-row md:items-center md:gap-6">
       <li className="flex items-center gap-x-2 p-1 text-[1.05rem]">
         <TbHomeDown className="text-[#90A4AE]" />
         <Link to="/" className="flex items-center" aria-label="Home">
@@ -48,7 +48,7 @@ const NavbarList = () => {
   );
 
   return (
-    <Navbar onMenuOpenChange={setOpenNav}>
+    <Navbar className="bg-background-300" onMenuOpenChange={setOpenNav}>
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={openNav ? "Close menu" : "Open menu"}
@@ -61,36 +61,30 @@ const NavbarList = () => {
         </NavbarBrand>
       </NavbarContent>
       <NavbarContent className="hidden md:flex gap-4" justify="center">
-        <div className="container mx-auto flex items-center justify-between text-blue-gray-900">
-          <div className="hidden lg:block">{navList}</div>
-          <div className="flex items-center gap-x-1">
-            <Button
-              fullWidth
-              variant="gradient"
-              size="sm"
-              color="blue"
-              className="hidden lg:inline-block py-2 text-[1.05rem]"
-              onClick={redirect}
-            >
-              <span>Try it Now</span>
-            </Button>
-          </div>
-        </div>
+        <div className="hidden md:flex">{navList}</div>
+      </NavbarContent>
+      <NavbarContent className="hidden md:flex gap-4" justify="end">
+        <Button
+          fullWidth
+          size="sm"
+          color="primary"
+          className="py-2 w-24 text-[1.05rem]"
+          onClick={redirect}
+        >
+          <span>Try it Now</span>
+        </Button>
       </NavbarContent>
       <NavbarMenu open={openNav}>
-        <div className="container mx-auto">
-          {navList}
-          <div className="flex items-center gap-x-1">
-            <Button
-              variant="gradient"
-              color="blue"
-              size="text-[1.05rem]"
-              className="w-6/2"
-              onClick={redirect}
-            >
-              <span>Try it Now</span>
-            </Button>
-          </div>
+        {navList}
+        <div className="flex items-center gap-x-1">
+          <Button
+            color="primary"
+            size="  text-[1.05rem]"
+            className="w-6/2"
+            onClick={redirect}
+          >
+            <span>Try it Now</span>
+          </Button>
         </div>
       </NavbarMenu>
     </Navbar>
