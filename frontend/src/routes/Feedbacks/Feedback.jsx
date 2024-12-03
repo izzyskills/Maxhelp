@@ -4,7 +4,9 @@ import { toast } from "react-toastify";
 import { listFeedbacks } from "../../api/api"; // Import the API function
 import Loader from "../../components/Loader/Loader"; // Ensure correct import
 import DashboardDetails from "../../components/DashboardDetails/DashboardDetails";
-import { Card, CardBody } from "@nextui-org/card";
+import { Card, CardBody, CardHeader } from "@nextui-org/card";
+import { RiStarSFill, RiStarSLine } from "react-icons/ri";
+import { formatTimeElapsed } from "../../utils";
 const Feedback = () => {
   const [feedbackData, setFeedbackData] = useState([]);
   const [totalFeedbacks, setTotalFeedbacks] = useState(0);
@@ -61,6 +63,17 @@ const Feedback = () => {
       value: totalFeedbacks,
     },
   ];
+  const renderStars = (rating) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      if (i <= rating) {
+        stars.push(<RiStarSFill key={i} className="text-yellow-500" />);
+      } else {
+        stars.push(<RiStarSLine key={i} className="text-yellow-500" />);
+      }
+    }
+    return stars;
+  };
 
   return (
     <div className="min-h-screen flex px-4 py-2 lg:px-8 lg:py-4">
@@ -73,34 +86,40 @@ const Feedback = () => {
         />
 
         {/* Feedback Grid Section */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-[2rem]">
+        <div className="space-y-4">
           {feedbackData.length > 0 ? (
             feedbackData.map(
               (
                 { id, customer_name, unit_name, comment, rating, created_at },
                 index,
               ) => (
-                <Card key={id} className="w-full shadow-lg border rounded-lg">
-                  <CardBody className="p-4">
-                    <h6 className="text-blue-gray mb-2">
-                      Feedback {index + 1}
-                    </h6>
-                    <p className="text-sm text-blue-gray-700 mb-1">
-                      <strong>Customer Name:</strong> {customer_name}
-                    </p>
-                    <p className="text-sm text-blue-gray-700 mb-1">
-                      <strong>Unit Name:</strong> {unit_name}
-                    </p>
-                    <p className="text-sm text-blue-gray-700 mb-1">
-                      <strong>Comment:</strong> {comment}
-                    </p>
-                    <p className="text-sm text-blue-gray-700 mb-1">
-                      <strong>Rating:</strong> {rating} / 5
-                    </p>
-                    <p className="text-sm text-blue-gray-700">
-                      <strong>Created At:</strong>{" "}
-                      {new Date(created_at).toLocaleString()}
-                    </p>
+                <Card
+                  key={id}
+                  className="flex flex-col items-center justify-between space-y-0 p-2 gap-0"
+                >
+                  <div className="flex flex-col w-full -mb-8">
+                    <div className="flex flex-row items-center justify-between space-y-0 -mb-2">
+                      <span className="text-xs font-bold text-blue-gray-800">
+                        from {unit_name}
+                      </span>
+                      <span className="text-xs font-bold text-blue-gray-800">
+                        {formatTimeElapsed(created_at)}
+                      </span>
+                    </div>
+
+                    <h4 className="text-base text-blue-gray-900">
+                      {customer_name}
+                    </h4>
+                  </div>
+                  <CardBody className="px-3 py-1 text-[0.85rem]">
+                    <p className="text-blue-gray-700 py-1">{comment}</p>
+
+                    <div className="flex items-center mb-1">
+                      <strong className="text-sm text-blue-gray-700 mr-2">
+                        Rating:
+                      </strong>
+                      {renderStars(rating)}
+                    </div>
                   </CardBody>
                 </Card>
               ),

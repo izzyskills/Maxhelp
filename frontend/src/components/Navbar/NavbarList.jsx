@@ -64,14 +64,8 @@ const NavbarList = () => {
         <div className="hidden md:flex">{navList}</div>
       </NavbarContent>
       <NavbarContent className="hidden md:flex gap-4" justify="end">
-        <Button
-          fullWidth
-          size="sm"
-          color="primary"
-          className="py-2 w-24 text-[1.05rem]"
-          onClick={redirect}
-        >
-          <span>Try it Now</span>
+        <Button size="sm" color="primary" variant="shadow" onClick={redirect}>
+          <span>Log In As Staff</span>
         </Button>
       </NavbarContent>
       <NavbarMenu open={openNav}>
@@ -80,10 +74,10 @@ const NavbarList = () => {
           <Button
             color="primary"
             size="  text-[1.05rem]"
-            className="w-6/2"
+            variant="shadow"
             onClick={redirect}
           >
-            <span>Try it Now</span>
+            <span>Log In As Staff</span>
           </Button>
         </div>
       </NavbarMenu>

@@ -25,7 +25,7 @@ const HomePage = () => {
               enabling you to achieve your business goals effortlessly.
             </p>
             <div className="">
-              <Button variant="outlined" onClick={redirect}>
+              <Button color="primary" variant="shadow" onClick={redirect}>
                 Get Started
               </Button>
             </div>

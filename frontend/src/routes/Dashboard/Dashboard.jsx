@@ -150,11 +150,19 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex px-4 py-2 lg:px-8 lg:py-4">
       <div className="w-full md:w-[75%] ml-[20%] p-8 overflow-y-auto">
-        <div className="mb-8 text-left">
-          <h3 color="blue-gray">
-            MaxHelp Business {role !== "admin" ? "Employee" : "Admin"} -
-            Dashboard
-          </h3>
+        <div className="flex justify-between items-center mb-8">
+          <div className="text-left">
+            <h3 color="blue-gray">
+              MaxHelp Business {role !== "admin" ? "Employee" : "Admin"} -
+              Dashboard
+            </h3>
+          </div>
+          {/* Admin-only Create Unit Button */}
+          {role === "admin" && (
+            <Button onClick={() => setShowForm(true)} color="success">
+              Create Unit
+            </Button>
+          )}
         </div>
 
         {/* Summary Box */}
@@ -193,15 +201,6 @@ const Dashboard = () => {
             <Line data={salesData} options={{ responsive: true }} />
           </Card>
         </div>
-
-        {/* Admin-only Create Unit Button */}
-        {role === "admin" && (
-          <div className="mb-8 absolute text-center top-[45%] md:top-[15%] lg:top-[15%] right-[10%] md:w-[15%] text-center whitespace-nowrap">
-            <Button onClick={() => setShowForm(true)} color="blue" fullWidth>
-              Create Unit
-            </Button>
-          </div>
-        )}
 
         {/* Form Modal */}
         {showForm && (

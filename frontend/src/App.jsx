@@ -17,6 +17,8 @@ import Notification from "./routes/Notification/Notification";
 import Feedback from "./routes/Feedbacks/Feedback";
 import Inventory from "./routes/Inventory/Inventory";
 import EmployeeLogin from "./routes/EmployeeLogin/EmployeeLogin";
+import LoggedInNav from "./components/Navbar/LoggedInNavbar";
+import { ThemeProvider } from "./context/ThemeProvider";
 
 const App = () => {
   const navigate = useNavigate();
@@ -64,52 +66,57 @@ const App = () => {
   ].includes(location.pathname);
 
   return (
-    <div className="min-h-screen min-w-full prose dark:prose-invert dark text-foreground bg-background">
-      {/* Navbar: Conditionally render based on current route */}
-      {showNavbarFooter && <NavbarList />}
-
-      <div className="flex">
-        {/* Sidebar: Conditionally render on specific routes */}
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <div className="min-h-screen min-w-full text-foreground bg-background">
+        {/* Navbar: Conditionally render based on current route */}
+        {showNavbarFooter && <NavbarList />}
         {showSidebarRoutes.includes(location.pathname) && (
-          <Sidebar username={username} />
+          <LoggedInNav
+            username={username}
+            email={"example.@.gmail"}
+            isAdmin={true}
+          />
         )}
 
-        <div className="flex-1">
-          {/* Define Routes for the application */}
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/onboarding" element={<Onboarding />} />
-            <Route path="/admin-login" element={<AdminLogin />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/admin-employees" element={<Employee />} />
-            <Route path="/notifications" element={<Notification />} />
-            <Route path="/feedbacks" element={<Feedback />} />
-            <Route path="/inventory" element={<Inventory />} />
+        <div className="flex">
+          {/* Sidebar: Conditionally render on specific routes */}
+          <div className="flex-1">
+            {/* Define Routes for the application */}
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/onboarding" element={<Onboarding />} />
+              <Route path="/admin-login" element={<AdminLogin />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/admin-employees" element={<Employee />} />
+              <Route path="/notifications" element={<Notification />} />
+              <Route path="/feedbacks" element={<Feedback />} />
+              <Route path="/inventory" element={<Inventory />} />
 
-            {/* Employee Routes */}
-            <Route path="/login" element={<EmployeeLogin />} />
-          </Routes>
+              {/* Employee Routes */}
+              <Route path="/login" element={<EmployeeLogin />} />
+            </Routes>
+          </div>
         </div>
+
+        {/* Footer: Conditionally render based on current route */}
+        {showNavbarFooter && <Footer />}
+
+        {/* Global Toast Notification Container */}
+        <ToastContainer
+          position="top-right"
+          autoClose={2100}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="colored"
+        />
       </div>
-
-      {/* Footer: Conditionally render based on current route */}
-      {showNavbarFooter && <Footer />}
-
-      {/* Global Toast Notification Container */}
-      <ToastContainer
-        position="top-right"
-        autoClose={2100}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
-    </div>
+    </ThemeProvider>
   );
 };
 

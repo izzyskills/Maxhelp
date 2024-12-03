@@ -7,7 +7,7 @@ import { Button } from "@nextui-org/button";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary-50 text-foreground">
+    <footer className="bg-[#002147] text-primary-foreground">
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
           {/* Column 1: Brand */}

@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { getUnitName } from "../../api/helper";
-import { Bar, Pie } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { RxUpdate } from "react-icons/rx";
-import { Tooltip, ArcElement, Legend, Chart as ChartJS } from "chart.js";
+import {
+  Tooltip,
+  ArcElement,
+  Legend,
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+} from "chart.js";
 import {
   createEmployee,
   listEmployees,
@@ -29,14 +36,21 @@ import {
 } from "@nextui-org/react";
 
 // Register necessary chart elements
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(
+  ArcElement,
+  Tooltip,
+  Legend,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+);
 
 const Employee = () => {
   const navigate = useNavigate();
   const [employees, setEmployees] = useState([]);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
   const [employeeToEdit, setEmployeeToEdit] = useState(null);
-  const [genderCounts, setGenderCounts] = useState({ male: 0, female: 0 });
+  const [unitCounts, setUnitCounts] = useState({});
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -48,13 +62,14 @@ const Employee = () => {
   });
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [employeeToDelete, setEmployeeToDelete] = useState(null);
-  const [genderChartData, setGenderChartData] = useState({
-    labels: ["Male", "Female"],
+  const [unitChartData, setUnitChartData] = useState({
+    labels: [],
     datasets: [
       {
-        data: [0, 0],
-        backgroundColor: ["#FF6384", "#36A2EB"],
-        hoverBackgroundColor: ["#FF6384", "#36A2EB"],
+        label: "Number of Employees",
+        data: [],
+        backgroundColor: [],
+        hoverBackgroundColor: [],
       },
     ],
   });
@@ -81,21 +96,31 @@ const Employee = () => {
 
         setEmployees(employeeList);
 
-        const maleCount = employeeList.filter(
-          (emp) => emp.gender === "Male",
-        ).length;
-        const femaleCount = employeeList.filter(
-          (emp) => emp.gender === "Female",
-        ).length;
-        setGenderCounts({ male: maleCount, female: femaleCount });
+        const unitCountMap = employeeList.reduce((acc, emp) => {
+          const unitName = getUnitName(emp.unit_id);
+          acc[unitName] = (acc[unitName] || 0) + 1;
+          return acc;
+        }, {});
 
-        setGenderChartData({
-          labels: ["Male", "Female"],
+        setUnitCounts(unitCountMap);
+
+        const colors = [
+          "#FF6384",
+          "#36A2EB",
+          "#FFCE56",
+          "#4BC0C0",
+          "#9966FF",
+          "#FF9F40",
+        ];
+
+        setUnitChartData({
+          labels: Object.keys(unitCountMap),
           datasets: [
             {
-              data: [maleCount, femaleCount],
-              backgroundColor: ["#FF6384", "#36A2EB"],
-              hoverBackgroundColor: ["#FF6384", "#36A2EB"],
+              label: "Number of Employees",
+              data: Object.values(unitCountMap),
+              backgroundColor: colors,
+              hoverBackgroundColor: colors,
             },
           ],
         });
@@ -149,25 +174,25 @@ const Employee = () => {
         toast.success("Employee created successfully");
       }
 
-      const newGenderCounts = {
-        male:
-          response.data.gender === "Male"
-            ? genderCounts.male + 1
-            : genderCounts.male,
-        female:
-          response.data.gender === "Female"
-            ? genderCounts.female + 1
-            : genderCounts.female,
+      const unitName = getUnitName(response.data.unit_id);
+      const newUnitCounts = {
+        ...unitCounts,
+        [unitName]: (unitCounts[unitName] || 0) + 1,
       };
 
-      setGenderCounts(newGenderCounts);
-      setGenderChartData({
-        labels: ["Male", "Female"],
+      setUnitCounts(newUnitCounts);
+      setUnitChartData({
+        labels: Object.keys(newUnitCounts),
         datasets: [
           {
-            data: [newGenderCounts.male, newGenderCounts.female],
-            backgroundColor: ["#FF6384", "#36A2EB"],
-            hoverBackgroundColor: ["#FF6384", "#36A2EB"],
+            label: "Number of Employees",
+            data: Object.values(newUnitCounts),
+            backgroundColor: Object.keys(newUnitCounts).map(
+              (_, index) => colors[index % colors.length],
+            ),
+            hoverBackgroundColor: Object.keys(newUnitCounts).map(
+              (_, index) => colors[index % colors.length],
+            ),
           },
         ],
       });
@@ -212,24 +237,25 @@ const Employee = () => {
         (emp) => emp.id === employeeToDelete,
       );
       if (deletedEmployee) {
-        setGenderCounts((prevCounts) => ({
-          male:
-            deletedEmployee.gender === "Male"
-              ? prevCounts.male - 1
-              : prevCounts.male,
-          female:
-            deletedEmployee.gender === "Female"
-              ? prevCounts.female - 1
-              : prevCounts.female,
-        }));
+        const unitName = getUnitName(deletedEmployee.unit_id);
+        const newUnitCounts = {
+          ...unitCounts,
+          [unitName]: unitCounts[unitName] - 1,
+        };
 
-        setGenderChartData({
-          labels: ["Male", "Female"],
+        setUnitCounts(newUnitCounts);
+        setUnitChartData({
+          labels: Object.keys(newUnitCounts),
           datasets: [
             {
-              data: [genderCounts.male, genderCounts.female],
-              backgroundColor: ["#FF6384", "#36A2EB"],
-              hoverBackgroundColor: ["#FF6384", "#36A2EB"],
+              label: "Number of Employees",
+              data: Object.values(newUnitCounts),
+              backgroundColor: Object.keys(newUnitCounts).map(
+                (_, index) => colors[index % colors.length],
+              ),
+              hoverBackgroundColor: Object.keys(newUnitCounts).map(
+                (_, index) => colors[index % colors.length],
+              ),
             },
           ],
         });
@@ -262,7 +288,6 @@ const Employee = () => {
   };
 
   const columns = [
-    { name: "S/N", uid: "sn" },
     { name: "Name", uid: "name" },
     { name: "Email", uid: "email" },
     { name: "Role", uid: "role" },
@@ -274,8 +299,6 @@ const Employee = () => {
   const renderCell = (item, columnKey) => {
     const cellValue = item[columnKey];
     switch (columnKey) {
-      case "sn":
-        return item.index + 1;
       case "unit_name":
         return getUnitName(item.unit_id);
       case "actions":
@@ -307,11 +330,11 @@ const Employee = () => {
   const summaryData = [
     {
       title: "Total Male Employees",
-      value: genderCounts.male,
+      value: employees.filter((emp) => emp.gender === "Male").length,
     },
     {
       title: "Total Female Employees",
-      value: genderCounts.female,
+      value: employees.filter((emp) => emp.gender === "Female").length,
     },
   ];
 
@@ -326,29 +349,13 @@ const Employee = () => {
   return (
     <div className="min-h-screen flex px-4 py-2 lg:px-8 lg:py-4">
       <div className="w-full md:w-[75%] ml-[20%] p-8 overflow-y-auto">
-        {/* Pie Chart for Employee Gender */}
-
-        {/* Popup Form */}
-        {showForm && (
-          <EmployeeForm
-            formData={formData}
-            setFormData={setFormData}
-            onSubmit={handleSubmit}
-            onClose={handleCancel}
-            title="Create New Employee"
-            submitButtonText="Submit"
-          />
-        )}
-
-        {/* Delete Confirmation */}
-        <DeleteConfirmation
-          isOpen={showDeleteModal}
-          onClose={cancelDelete}
-          onDelete={confirmDelete}
-        />
-
         {/* Employee Table */}
-        <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 mt-[2rem]">
+        <DashboardDetails
+          title="MaxHelp Business Admin - Dashboard"
+          subtitle="Employee Details Page and Statistics"
+          summaryData={summaryData}
+        />
+        <div className="grid grid-cols-1 gap-8 mt-[2rem]">
           <Card className="h-full w-full shadow-none relative">
             <div className="flex items-center justify-between p-2">
               <h5 className="text-blue-gray mb-4 text-left">Employee List</h5>
@@ -387,25 +394,55 @@ const Employee = () => {
             </Table>
           </Card>
         </div>
+
+        {/* Bar Chart for Employee Unit Distribution */}
         <div className="flex items-start justify-center mt-[2rem]">
-          <Card
-            color="transparent"
-            shadow={2}
-            className="flex flex-col items-center p-6"
-          >
-            <h5 className="text-blue-gray mb-4">
-              Employee Gender Distribution
-            </h5>
+          <Card className="flex flex-col items-center p-6 w-full">
+            <h5 className="text-blue-gray mb-4">Employee Unit Distribution</h5>
             <Bar
-              data={genderChartData}
+              data={unitChartData}
               options={{
                 responsive: true,
                 plugins: { legend: { position: "top" } },
+                scales: {
+                  x: {
+                    title: {
+                      display: true,
+                      text: "Unit Name",
+                    },
+                  },
+                  y: {
+                    title: {
+                      display: true,
+                      text: "Number of Employees",
+                    },
+                    beginAtZero: true,
+                  },
+                },
               }}
-              className="h-[50%] w-[50%]"
+              className="h-[100%] w-[100%]"
             />
           </Card>
         </div>
+
+        {/* Popup Form */}
+        {showForm && (
+          <EmployeeForm
+            formData={formData}
+            setFormData={setFormData}
+            onSubmit={handleSubmit}
+            onClose={handleCancel}
+            title="Create New Employee"
+            submitButtonText="Submit"
+          />
+        )}
+
+        {/* Delete Confirmation */}
+        <DeleteConfirmation
+          isOpen={showDeleteModal}
+          onClose={cancelDelete}
+          onDelete={confirmDelete}
+        />
       </div>
     </div>
   );
