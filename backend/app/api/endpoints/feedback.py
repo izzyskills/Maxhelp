@@ -16,7 +16,7 @@ router = APIRouter()
 async def create_feedback(
     feedback: FeedbackCreate,
     db: AsyncSession = Depends(get_session),
-    token: str = Depends(oauth2_scheme_user)
+    token: str = Depends(oauth2_scheme_user),
 ):
     """
     Create feedback: Only customers can provide feedback.
@@ -74,14 +74,9 @@ async def create_feedback(
     )
 
 
-
-
-
-
 @router.get("/list-feedbacks", response_model=List[FeedbackResponse])
 async def get_feedback(
-    db: AsyncSession = Depends(get_session),
-    token: str = Depends(oauth2_scheme_user)
+    db: AsyncSession = Depends(get_session), token: str = Depends(oauth2_scheme_user)
 ):
     """
     Get feedback: Admins can see all feedback; Employees can see feedback for their unit only.
@@ -132,6 +127,44 @@ async def get_feedback(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Unauthorized to view feedback",
         )
+
+    # Execute query
+    result = await db.execute(statement)
+    feedback_records = result.all()
+
+    # Convert result to response model
+    feedback_list = [
+        FeedbackResponse(
+            id=feedback.id,
+            user_id=feedback.user_id,
+            unit_id=feedback.unit_id,
+            comment=feedback.comment,
+            rating=feedback.rating,
+            created_at=feedback.created_at,
+            customer_name=customer_name,
+            unit_name=unit_name,
+        )
+        for feedback, customer_name, unit_name in feedback_records
+    ]
+
+    return feedback_list
+
+
+@router.get("/public-feedbacks", response_model=List[FeedbackResponse])
+async def get_public_feedbacks(db: AsyncSession = Depends(get_session)):
+    """
+    Get all feedbacks without requiring authentication.
+    """
+    # Define base query
+    statement = (
+        select(
+            Feedback,
+            User.name.label("customer_name"),
+            BusinessUnit.name.label("unit_name"),
+        )
+        .join(User, User.id == Feedback.user_id)
+        .join(BusinessUnit, BusinessUnit.id == Feedback.unit_id)
+    )
 
     # Execute query
     result = await db.execute(statement)
