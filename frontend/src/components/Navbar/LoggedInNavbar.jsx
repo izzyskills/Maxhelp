@@ -111,7 +111,9 @@ const LoggedInNav = ({ username, email, isAdmin }) => {
               onClick={handleLogout}
               className="text-danger"
             >
-              <FaSignOutAlt className="mr-2" /> Log out
+              <div className="flex items-center gap-2">
+                <FaSignOutAlt className="mr-2" /> <span>Log out</span>
+              </div>
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>

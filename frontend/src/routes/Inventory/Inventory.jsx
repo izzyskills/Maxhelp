@@ -66,7 +66,7 @@ const Inventory = () => {
     if (!token) {
       toast.error("You need to be logged in to access this page.");
       setTimeout(() => {
-        navigate("/onboarding");
+        navigate("/onboarding/login");
       }, 2000);
       return;
     }

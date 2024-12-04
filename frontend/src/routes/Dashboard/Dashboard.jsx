@@ -17,6 +17,8 @@ import {
 import { Button } from "@nextui-org/button";
 import { Input } from "@nextui-org/input";
 import { Card } from "@nextui-org/card";
+import { FaDollarSign, FaPeopleGroup, FaServer } from "react-icons/fa6";
+import { formattedWithCommas } from "../../utils";
 
 // Register Chart.js elements
 ChartJS.register(
@@ -49,9 +51,8 @@ const Dashboard = () => {
       {
         label: "Sales",
         data: [10000, 20000, 30000, 25000, 40000, 50000],
-        borderColor: "#42A5F5",
-        backgroundColor: "rgba(66, 165, 245, 0.2)",
-        fill: true,
+        borderColor: "#17c964",
+        backgroundColor: "#17c964",
         tension: 0.4,
       },
     ],
@@ -69,7 +70,7 @@ const Dashboard = () => {
 
       if (!token) {
         toast.error("You need to be logged in to access this page.");
-        navigate("/onboarding");
+        navigate("/onboarding/login");
         return;
       }
 
@@ -82,12 +83,15 @@ const Dashboard = () => {
       }
 
       // Total sales is common for all roles
-      setTotalSales(response.data.total_sales);
+      setTotalSales(response.data.total_sales || 50000);
     } catch (error) {
       const storedRole = localStorage.getItem("role");
 
       console.error("Error fetching dashboard data:", error);
 
+      navigate(
+        role === "admin" ? "/onboarding/admin-login" : "/onboarding/login",
+      );
       // Fetch data based on role
       if (storedRole === "admin") {
         toast.error(
@@ -166,13 +170,24 @@ const Dashboard = () => {
         </div>
 
         {/* Summary Box */}
-        <div className="mb-8 w-full grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="mb-8 w-full grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Common for all roles */}
+          <Card className="flex flex-col items-start h-[150px] justify-center p-4">
+            <div className="flex flex-row items-center w-full justify-between space-y-0 pb-2">
+              <h6 className="text-gray mb-2">Total Sales</h6>
+              <FaDollarSign className="h4 w-4 " />
+            </div>
+            <h6 className="text-success">
+              ₦ {formattedWithCommas(totalSales)}
+            </h6>
+          </Card>
           {/* Admin-specific section */}
           {role === "admin" && (
             <Card className="flex flex-col w-[100%] h-[150px] items-start justify-center p-4">
-              <h6 color="gray" className="mb-2 text-left text-[0.9rem]">
-                Total Employees
-              </h6>
+              <div className="flex flex-row items-center w-full justify-between space-y-0 pb-2">
+                <h6 className="text-gray mb-2">Total Employees</h6>
+                <FaPeopleGroup className="h4 w-4 " />
+              </div>
               <h4 color="blue-gray">{totalEmployee}</h4>
             </Card>
           )}
@@ -180,23 +195,19 @@ const Dashboard = () => {
           {/* Admin-only Business Units */}
           {role === "admin" && (
             <Card className="flex flex-col items-start h-[150px] justify-center p-4">
-              <h6 className="text-gray mb-2 text-left text-[0.9rem]">
-                Business Units
-              </h6>
+              <div className="flex flex-row items-center w-full justify-between space-y-0 pb-2">
+                <h6 className="text-gray mb-2">Business Units</h6>
+                <FaServer className="h4 w-4 " />
+              </div>
+
               <h4 className="text-blue-gray">{businessUnitsCount}</h4>
             </Card>
           )}
-
-          {/* Common for all roles */}
-          <Card className="flex flex-col items-start h-[150px] justify-center p-4">
-            <h6 className="text-gray mb-2">Total Sales</h6>
-            <h6 className="text-blue-gray">₦{totalSales}</h6>
-          </Card>
         </div>
 
         {/* Line Chart for Sales Progress */}
-        <div className="flex justify-center mt-8">
-          <Card className="w-full max-w-md p-6">
+        <div className="grid md:grid-cols-3 mt-8">
+          <Card className="col-span-2 w-full  p-6">
             <h5 className="text-blue-gray mb-4">Sales Progress</h5>
             <Line data={salesData} options={{ responsive: true }} />
           </Card>
@@ -233,10 +244,10 @@ const Dashboard = () => {
                 </div>
 
                 <div className="flex justify-end gap-4">
-                  <Button color="red" onClick={() => setShowForm(false)}>
+                  <Button color="danger" onClick={() => setShowForm(false)}>
                     Cancel
                   </Button>
-                  <Button type="submit" color="blue" disabled={loading}>
+                  <Button type="submit" color="success" disabled={loading}>
                     {loading ? "Creating..." : "Create Business Unit"}
                   </Button>
                 </div>

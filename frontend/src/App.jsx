@@ -53,10 +53,12 @@ const App = () => {
     }
   }, [location.pathname, navigate]);
 
+  const isAdmin = localStorage.getItem("role") === "admin";
   // Determine whether to show the Navbar and Footer
   const showNavbarFooter = ![
     "/admin-login",
-    "/onboarding",
+    "/onboarding/login",
+    "/onboarding/admin-login",
     "/login",
     "/dashboard",
     "/admin-employees",
@@ -74,7 +76,7 @@ const App = () => {
           <LoggedInNav
             username={username}
             email={"example.@.gmail"}
-            isAdmin={true}
+            isAdmin={isAdmin}
           />
         )}
 
@@ -85,7 +87,7 @@ const App = () => {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/about" element={<AboutPage />} />
-              <Route path="/onboarding" element={<Onboarding />} />
+              <Route path="/onboarding/*" element={<Onboarding />} />
               <Route path="/admin-login" element={<AdminLogin />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/admin-employees" element={<Employee />} />

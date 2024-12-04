@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FormComponent from "../../components/FormComponent/FormComponent";
@@ -8,16 +7,17 @@ import Loader from "../../components/Loader/Loader";
 
 const EmployeeLogin = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async (formData) => {
     try {
+      setLoading(true);
       const response = await loginEmployee({
         email: formData.email,
         password: formData.password,
       });
 
-      const username = formData.email.split('@')[0];
+      const username = formData.email.split("@")[0];
 
       localStorage.setItem("token", response.data.access_token); // Save JWT token
       localStorage.setItem("username", username); // Save employee email
@@ -25,11 +25,11 @@ const EmployeeLogin = () => {
 
       toast.success("Login Successful!");
 
+      setLoading(false);
       // Wait for 2 seconds before redirecting to the dashboard
-      setTimeout(() => {
-        navigate("/dashboard");
-      }, 2000);
+      navigate("/dashboard");
     } catch (error) {
+      setLoading(false);
       toast.error("Login Failed: Invalid credentials");
     }
   };
@@ -51,33 +51,22 @@ const EmployeeLogin = () => {
     },
   ];
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (loading) {
-    return <Loader />;
-  }
-
   return (
-    <div className="min-h-screen flex flex-col justify-center md:justify-normal md:flex-row">
+    <div className="items-center flex flex-col justify-center md:justify-normal md:flex-row">
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center px-8 py-6 sm:mt-12">
         <FormComponent
           title="Employee Login"
           fields={fields}
           onSubmit={handleLogin}
           submitButtonText="Login"
+          loading={loading}
         />
       </div>
-      <div className="w-full md:w-1/2 bg-blue-900 flex items-center justify-center">
+      <div className="w-full md:w-1/2 flex items-center justify-center">
         <img
           src="/Login.png"
           alt="Employee Login Illustration"
-          className="w-2/3 max-w-sm md:block hidden"
+          className="w-full md:block hidden"
         />
       </div>
     </div>

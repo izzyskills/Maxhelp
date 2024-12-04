@@ -11,7 +11,9 @@ const Units = () => {
             className="shadow-lg hover:shadow-xl py-2 px-2 transition-shadow"
           >
             <div className="">
-              <h5 className="text-[1rem] text-center">{unit.unit_name}</h5>
+              <h5 className="text-xl font-bold text-center">
+                {unit.unit_name}
+              </h5>
             </div>
 
             <CardBody

@@ -21,7 +21,7 @@ const Feedback = () => {
       // Redirect to login if the token is missing
       toast.error("You need to be logged in to access this page.");
       setTimeout(() => {
-        navigate("/admin-login");
+        navigate("/onboarding/login");
       }, 2000);
       return;
     }
@@ -42,6 +42,9 @@ const Feedback = () => {
       } catch (error) {
         console.error("Error fetching feedbacks:", error);
         toast.error("Failed to load feedback data. Please try again later.");
+        navigate(
+          role === "admin" ? "/onboarding/admin-login" : "/onboarding/login",
+        );
         setLoading(false); // Ensure loading stops even if there's an error
       }
     };
@@ -97,8 +100,8 @@ const Feedback = () => {
                   key={id}
                   className="flex flex-col items-center justify-between space-y-0 p-2 gap-0"
                 >
-                  <div className="flex flex-col w-full -mb-8">
-                    <div className="flex flex-row items-center justify-between space-y-0 -mb-2">
+                  <div className="flex flex-col w-full">
+                    <div className="flex flex-row items-center justify-between space-y-0 mb-2">
                       <span className="text-xs font-bold text-blue-gray-800">
                         from {unit_name}
                       </span>

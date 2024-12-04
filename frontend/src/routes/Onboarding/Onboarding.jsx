@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { FaUser, FaUserTie, FaUserShield } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader/Loader";
+import { Tab, Tabs } from "@nextui-org/react";
+import EmployeeLogin from "../EmployeeLogin/EmployeeLogin";
+import AdminLogin from "../AdminLogin/AdminLogin";
 
 const Onboarding = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true); // Add loading state
-
-  useEffect(() => {
-    // Simulate a loading process (e.g., data fetching or async operations)
-    const timer = setTimeout(() => {
-      setLoading(false); // After 2 seconds, stop loading
-    }, 1500);
-
-    return () => clearTimeout(timer); // Cleanup timer
-  }, []);
+  const [loading, setLoading] = useState(false); // Add loading state
+  const { pathname } = useLocation();
 
   const EmployeeRedirect = () => {
     navigate("/login");
@@ -28,46 +23,38 @@ const Onboarding = () => {
   }
 
   return (
-    <div className="onboarding min-h-screen flex md:flex-row">
-      {/* Left Section */}
-      <div className="left w-full md:w-1/2 flex flex-col justify-center px-8 py-6">
-        <h4 className=" font-bold mb-6 text-center md:text-left">
-          Choose Your Option
-        </h4>
-
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 cursor-pointer">
-          {/* Admin Option */}
-          <div
-            className="flex flex-col items-center space-y-2 p-4 bg-default-100 rounded-lg w-[90%] mx-auto md:w-full hover:-translate-y-10 transition-all duration-100 ease-in-out"
-            onClick={AdminRedirect}
-          >
-            <FaUser className="text-blue-gray-900 text-2xl" />
-            <h6 className="font-semibold text-center">Admin</h6>
-            <p className="text-sm text-center">
-              Manage your organization's settings and users.
-            </p>
-          </div>
-
-          {/* Employee Option */}
-          <div
-            className="flex flex-col items-center space-y-2 p-4 bg-default-100 rounded-lg w-[90%] mx-auto hover:-translate-y-10  transition-all duration-100 ease-in-out"
-            onClick={EmployeeRedirect}
-          >
-            <FaUserTie className="text-blue-gray-900 text-2xl" />
-            <h6 className=" font-semibold text-center">Employee</h6>
-            <p className="text-sm text-center">
-              Access tools and resources to manage your work.
-            </p>
-          </div>
-        </div>
-      </div>
-
-      {/* Right Section */}
-      <div className="hidden right md:w-1/2 md:flex items-center justify-center py-6  md:bg-primary-100 sm:bg-transparent">
-        <h3 className="font-bold text-center sm:text-default-800 md:text-default">
-          Welcome to MaxHelp
-        </h3>
-      </div>
+    <div className="flex w-full flex-col p-4 px-8 mt-8">
+      <Tabs
+        aria-label="Options"
+        selectedKey={pathname}
+        color="primary"
+        variant="bordered"
+      >
+        <Tab
+          key="/onboarding/login"
+          href="/onboarding/login"
+          title={
+            <div className="flex items-center space-x-2">
+              <FaUserTie className="text-2xl" />
+              <span className="font-semibold text-center">Employee</span>
+            </div>
+          }
+        />
+        <Tab
+          key="/onboarding/admin-login"
+          href="/onboarding/admin-login"
+          title={
+            <div className="flex items-center space-x-2">
+              <FaUser className="text-2xl" />
+              <span className="font-semibold text-center">Admin</span>
+            </div>
+          }
+        />
+      </Tabs>
+      <Routes>
+        <Route path="/login" element={<EmployeeLogin />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
+      </Routes>
     </div>
   );
 };

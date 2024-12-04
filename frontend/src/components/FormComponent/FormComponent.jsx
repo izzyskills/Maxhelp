@@ -6,7 +6,13 @@ import { toast } from "react-toastify"; // Import react-toastify
 import { useNavigate } from "react-router-dom"; // Import useNavigate from react-router-dom
 import { FaEye, FaRegEyeSlash } from "react-icons/fa6";
 // Reusable Form Component
-const FormComponent = ({ title, fields, onSubmit, submitButtonText }) => {
+const FormComponent = ({
+  title,
+  fields,
+  onSubmit,
+  submitButtonText,
+  loading,
+}) => {
   const navigate = useNavigate(); // Initialize the navigate function for routing
   const [passwordVisibility, setPasswordVisibility] = useState({});
 
@@ -50,12 +56,12 @@ const FormComponent = ({ title, fields, onSubmit, submitButtonText }) => {
 
   // Navigate back to the onboarding screen
   const handleBackToOnboarding = () => {
-    navigate("/onboarding"); // Replace with the correct path for your onboarding screen
+    navigate("/onboarding/login"); // Replace with the correct path for your onboarding screen
   };
 
   return (
     <Card className="bg-transparent">
-      <h4 className="text-blue-gray text-center">{title}</h4>
+      <h4 className="font-bold text-xl text-center">{title}</h4>
       <form
         className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96 px-4 py-2 lg:px-8 lg:py-4"
         onSubmit={handleSubmit}
@@ -89,7 +95,13 @@ const FormComponent = ({ title, fields, onSubmit, submitButtonText }) => {
             </div>
           ))}
         </div>
-        <Button type="submit" color="primary" className="mt-6" fullWidth>
+        <Button
+          type="submit"
+          color="primary"
+          className="mt-6"
+          isLoading={loading}
+          fullWidth
+        >
           {submitButtonText}
         </Button>
       </form>

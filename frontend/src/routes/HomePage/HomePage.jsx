@@ -1,12 +1,12 @@
 import Units from "../../components/Units/Units";
-import FeedbackCarousel from "../../components/FeedbackCarousel/FeedbackCarousel";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@nextui-org/button";
+import HomeFeedbacksCarousel from "../../components/FeedbackCarousel/HomeFeedBackCarousel";
 
 const HomePage = () => {
   const navigate = useNavigate();
   const redirect = () => {
-    navigate("/onboarding");
+    navigate("/onboarding/login");
   };
   return (
     <div className="homePage container mx-auto px-4 py-2 lg:px-8 lg:py-4 text-blue-gray-900 my-[4rem]">
@@ -14,8 +14,7 @@ const HomePage = () => {
         <div className="flex items-center justify-between gap-5">
           <div className="left flex flex-col items-start gap-3 space-y-3">
             <h2 className="text-[2rem]">
-              Welcome to{" "}
-              <span className="text-blue-gray-600">MaxHelp Business </span>
+              Welcome to <span className="text-primary">MaxHelp Business </span>
               Enterprises
             </h2>
             <h4 className="text-[1.3rem]">Empowering Your Journey</h4>
@@ -40,7 +39,7 @@ const HomePage = () => {
       <div className="bottom">
         <div className="top my-[4rem] mt-[5rem] mb-[5rem]">
           <div className="text-center uppercase">
-            <h4>Explore our Business Units</h4>
+            <h4 className="font-bold text-2xl">Explore our Business Units</h4>
           </div>
           <Units />
         </div>
@@ -48,9 +47,9 @@ const HomePage = () => {
         <div className="bottom">
           <div className="top my-[4rem] mt-[5rem] mb-[5rem]">
             <div className="text-center uppercase">
-              <h4>Clients Feedback and Testimonials </h4>
+              <h4 className="text-2xl font-bold">Testimonials </h4>
             </div>
-            <FeedbackCarousel />
+            <HomeFeedbacksCarousel />
           </div>
         </div>
       </div>

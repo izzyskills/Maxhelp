@@ -46,6 +46,7 @@ ChartJS.register(
 );
 
 const Employee = () => {
+  const role = localStorage.getItem("role");
   const navigate = useNavigate();
   const [employees, setEmployees] = useState([]);
   const [showUpdateForm, setShowUpdateForm] = useState(false);
@@ -82,7 +83,7 @@ const Employee = () => {
     if (!token) {
       toast.error("You need to be logged in to access this page.");
       setTimeout(() => {
-        navigate("/admin-login");
+        navigate("/onboarding/login");
       }, 2000);
     }
 
@@ -127,6 +128,9 @@ const Employee = () => {
       } catch (error) {
         console.error("Error fetching employees:", error);
         toast.error("Error fetching employees");
+        navigate(
+          role === "admin" ? "/onboarding/admin-login" : "/onboarding/login",
+        );
       } finally {
         setLoading(false); // Hide loader after fetch
       }

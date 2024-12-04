@@ -46,6 +46,10 @@ const Notification = () => {
         );
         setLoading(false); // Ensure loading stops even if an error occurs
         setIsToastShown(false);
+
+        navigate(
+          role === "admin" ? "/onboarding/admin-login" : "/onboarding/login",
+        );
       }
     };
 

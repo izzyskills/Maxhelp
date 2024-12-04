@@ -27,7 +27,7 @@ export const createBusinessUnit = (data, token) => {
         Authorization: `Bearer ${token}`, // Attach the JWT token for authorization
         "Content-Type": "application/json", // Ensure the request is sent as JSON
       },
-    }
+    },
   );
 };
 // API call to create a employee
@@ -40,7 +40,7 @@ export const createEmployee = (data, token) => {
         Authorization: `Bearer ${token}`, // Attach the JWT token for authorization
         "Content-Type": "application/json", // Ensure the request is sent as JSON
       },
-    }
+    },
   );
 };
 // API call to list all employees along with gender counts
@@ -69,7 +69,7 @@ export const updateEmployee = (employeeId, data, token) => {
         Authorization: `Bearer ${token}`, // Attach the JWT token for authorization
         "Content-Type": "application/json", // Ensure the request is sent as JSON
       },
-    }
+    },
   );
 };
 // API call to list all employees along with gender counts
@@ -91,7 +91,7 @@ export const createInventory = (data, token) => {
         Authorization: `Bearer ${token}`, // Attach the JWT token for authorization
         "Content-Type": "application/json", // Ensure the request is sent as JSON
       },
-    }
+    },
   );
 };
 // API call to fetch inventory items based on user role
@@ -118,7 +118,7 @@ export const updateInventory = (itemId, data, token) => {
         Authorization: `Bearer ${token}`, // Attach the JWT token for authorization
         "Content-Type": "application/json", // Ensure the request is sent as JSON
       },
-    }
+    },
   );
 };
 // API call to delete an inventory item
@@ -151,6 +151,9 @@ export const listFeedbacks = async (token) => {
     },
   });
 };
+export const listHomeFeedbacks = async () => {
+  return api.get("/feedback/public-feedbacks");
+};
 // API call to fetch low inventory notifications
 export const fetchLowInventoryNotifications = async (token) => {
   try {
@@ -176,7 +179,7 @@ export const loginEmployee = (data, token) => {
         Authorization: `Bearer ${token}`, // Attach the JWT token for authorization
         "Content-Type": "application/json", // Ensure the request is sent as JSON
       },
-    }
+    },
   );
 };
 // API call to report low inventory
@@ -189,13 +192,8 @@ export const reportLowInventory = (inventoryId, token) => {
         Authorization: `Bearer ${token}`, // Attach the JWT token for authorization
         "Content-Type": "application/json", // Ensure the request is sent as JSON
       },
-    }
+    },
   );
 };
-
-
-
-
-
 
 export default api;

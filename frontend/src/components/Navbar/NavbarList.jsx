@@ -11,6 +11,7 @@ import {
   NavbarMenuItem,
 } from "@nextui-org/react";
 import { Button } from "@nextui-org/button";
+import DarkMode from "./DarkMode";
 
 const NavbarList = () => {
   const navigate = useNavigate();
@@ -32,18 +33,18 @@ const NavbarList = () => {
 
   const navList = (
     <ul className="mt-2 mb-4 flex flex-col gap-2 md:mb-0 md:mt-0 md:flex-row md:items-center md:gap-6">
-      <li className="flex items-center gap-x-2 p-1 text-[1.05rem]">
-        <TbHomeDown className="text-[#90A4AE]" />
-        <Link to="/" className="flex items-center" aria-label="Home">
-          Home
-        </Link>
-      </li>
-      <li className="flex items-center gap-x-2 p-1 text-[1.05rem]">
-        <IoPeopleSharp className="text-[#90A4AE]" />
-        <Link to="/about" className="flex items-center" aria-label="About Us">
-          About Us
-        </Link>
-      </li>
+      {/* <li className="flex items-center gap-x-2 p-1 text-[1.05rem]"> */}
+      {/*   <TbHomeDown className="text-[#90A4AE]" /> */}
+      {/*   <Link to="/" className="flex items-center" aria-label="Home"> */}
+      {/*     Home */}
+      {/*   </Link> */}
+      {/* </li> */}
+      {/* <li className="flex items-center gap-x-2 p-1 text-[1.05rem]"> */}
+      {/*   <IoPeopleSharp className="text-[#90A4AE]" /> */}
+      {/*   <Link to="/about" className="flex items-center" aria-label="About Us"> */}
+      {/*     About Us */}
+      {/*   </Link> */}
+      {/* </li> */}
     </ul>
   );
 
@@ -64,6 +65,7 @@ const NavbarList = () => {
         <div className="hidden md:flex">{navList}</div>
       </NavbarContent>
       <NavbarContent className="hidden md:flex gap-4" justify="end">
+        <DarkMode />
         <Button size="sm" color="primary" variant="shadow" onClick={redirect}>
           <span>Log In As Staff</span>
         </Button>

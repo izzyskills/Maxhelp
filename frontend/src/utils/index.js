@@ -32,3 +32,6 @@ export function formatTimeElapsed(dateTime) {
     return seconds + "s";
   }
 }
+export function formattedWithCommas(num) {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
