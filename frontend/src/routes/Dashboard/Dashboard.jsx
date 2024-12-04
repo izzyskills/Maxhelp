@@ -89,14 +89,14 @@ const Dashboard = () => {
 
       console.error("Error fetching dashboard data:", error);
 
-      navigate(
-        role === "admin" ? "/onboarding/admin-login" : "/onboarding/login",
-      );
-      // Fetch data based on role
+      // Redirect only if the role is admin
       if (storedRole === "admin") {
+        navigate("/onboarding/admin-login");
         toast.error(
           error.response ? error.response.data.detail : "An error occurred",
         );
+      } else {
+        toast.error("An error occurred, but you are not redirected.");
       }
     } finally {
       setLoading(false); // Hide loader after fetching the data

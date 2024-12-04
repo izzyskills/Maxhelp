@@ -3,7 +3,7 @@ import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import NavbarList from "./components/Navbar/NavbarList";
 import Footer from "./components/Footer/Footer";
 import Sidebar from "./components/Sidebar/Sidebar";
-import { ToastContainer } from "react-toastify";
+import { Bounce, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 // Pages
@@ -23,6 +23,7 @@ import { ThemeProvider } from "./context/ThemeProvider";
 const App = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const location = useLocation();
 
   // Define routes where sidebar should be shown
@@ -37,7 +38,14 @@ const App = () => {
   // Fetch username from localStorage when the app loads
   useEffect(() => {
     // Exclude routes that should not trigger login checks
-    const noLoginRequiredRoutes = ["/", "/about", "/onboarding", "/login"];
+    const noLoginRequiredRoutes = [
+      "/",
+      "/about",
+      "/onboarding",
+      "/login",
+      "/onboarding/login",
+      "/onboarding/admin-login",
+    ];
 
     if (noLoginRequiredRoutes.includes(location.pathname)) {
       return; // Don't perform login check for these routes
@@ -49,7 +57,14 @@ const App = () => {
       setUsername(storedUsername);
     } else {
       // Redirect to login if username is not found in localStorage
-      navigate("/admin-login");
+      navigate("/onboarding/login");
+    }
+    const storedEmail = localStorage.getItem("email");
+    if (storedEmail) {
+      setEmail(storedEmail);
+    } else {
+      // Redirect to login if email is not found in localStorage
+      navigate("/onboarding/login");
     }
   }, [location.pathname, navigate]);
 
@@ -73,11 +88,7 @@ const App = () => {
         {/* Navbar: Conditionally render based on current route */}
         {showNavbarFooter && <NavbarList />}
         {showSidebarRoutes.includes(location.pathname) && (
-          <LoggedInNav
-            username={username}
-            email={"example.@.gmail"}
-            isAdmin={isAdmin}
-          />
+          <LoggedInNav username={username} email={email} isAdmin={isAdmin} />
         )}
 
         <div className="flex">
@@ -106,10 +117,11 @@ const App = () => {
 
         {/* Global Toast Notification Container */}
         <ToastContainer
-          position="top-right"
+          position="bottom-right"
           autoClose={2100}
           hideProgressBar={false}
-          newestOnTop={false}
+          newestOnTop={true}
+          transition={Bounce}
           closeOnClick
           rtl={false}
           pauseOnFocusLoss

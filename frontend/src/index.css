@@ -7,3 +7,10 @@
   padding: 0;
   box-sizing: border-box;
 }
+--toastify-color-light: #fff;
+--toastify-color-dark: #121212;
+--toastify-color-info: #006fee;
+--toastify-color-success: #17c964;
+--toastify-color-warning: #f5a524;
+--toastify-color-error: #f31260;
+--toastify-color-transparent: rgba(255, 255, 255, 0.7);

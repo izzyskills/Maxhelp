@@ -28,7 +28,7 @@ const NavbarList = () => {
   }, []);
 
   const redirect = () => {
-    navigate("/onboarding");
+    navigate("/onboarding/login");
   };
 
   const navList = (

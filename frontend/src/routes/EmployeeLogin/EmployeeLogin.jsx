@@ -20,6 +20,7 @@ const EmployeeLogin = () => {
       const username = formData.email.split("@")[0];
 
       localStorage.setItem("token", response.data.access_token); // Save JWT token
+      localStorage.setItem("email", formData.email); // Save employee email
       localStorage.setItem("username", username); // Save employee email
       localStorage.setItem("role", "employee"); // Save role as employee
 

@@ -211,15 +211,17 @@ const Employee = () => {
 
   const handleEditEmployee = (employee) => {
     setEmployeeToEdit(employee); // Ensure this is not null
+    console.log(employee);
+
     setFormData({
       name: employee.name,
       email: employee.email,
       role: employee.role,
-      unit_id: employee.unit_id,
+      unit_id: String(employee.unit_id),
       gender: employee.gender,
       password: "",
     });
-    setShowUpdateForm(true);
+    setShowForm(true);
   };
 
   const handleDeleteEmployee = (employeeId) => {
@@ -436,8 +438,9 @@ const Employee = () => {
             setFormData={setFormData}
             onSubmit={handleSubmit}
             onClose={handleCancel}
-            title="Create New Employee"
+            title={employeeToEdit ? "Edit Employee" : "Create New Employee"}
             submitButtonText="Submit"
+            isUpdate={!!employeeToEdit}
           />
         )}
 

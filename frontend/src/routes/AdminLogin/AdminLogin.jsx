@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import FormComponent from "../../components/FormComponent/FormComponent";
 import { loginAdmin } from "../../api/api";
 import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 
 const AdminLogin = () => {
   const navigate = useNavigate();
@@ -16,6 +17,11 @@ const AdminLogin = () => {
       });
 
       localStorage.setItem("token", response.data.access_token); // Save JWT token
+      const decodedToken = jwtDecode(response.data.access_token); // Decode the token
+
+      // Extract the email (sub) from the token
+      const email = decodedToken.sub;
+      localStorage.setItem("email", email); // Save email
       localStorage.setItem("username", formData.username); // Save username
       localStorage.setItem("role", "admin"); // Save role as admin
 
@@ -25,6 +31,7 @@ const AdminLogin = () => {
       navigate("/dashboard");
     } catch (error) {
       setLoading(false);
+      console.error("Login failed:", error);
       toast.error("Login Failed: Invalid credentials");
     }
   };

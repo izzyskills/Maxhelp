@@ -18,7 +18,9 @@ const InventoryForm = ({
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSelectChange = (value) => {
+  const handleSelectChange = (e) => {
+    const value = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric characters
+    console.log(value);
     setFormData({ ...formData, unit_id: value });
   };
 
@@ -68,22 +70,30 @@ const InventoryForm = ({
 
           <Select
             label="Unit Name"
-            value={formData.unit_id}
+            selectedKeys={[String(formData.unit_id)]}
             onChange={handleSelectChange}
             isRequired
           >
-            <SelectItem value="1">Restaurant</SelectItem>
-            <SelectItem value="2">Grocery Store</SelectItem>
-            <SelectItem value="3">Bottled Water Industry</SelectItem>
-            <SelectItem value="4">Bookshop</SelectItem>
+            <SelectItem key="1" value="1">
+              Restaurant
+            </SelectItem>
+            <SelectItem key="2" value="2">
+              Bookshop
+            </SelectItem>
+            <SelectItem key="3" value="3">
+              Grocery Store
+            </SelectItem>
+            <SelectItem key="4" value="4">
+              Bottled Water Industry
+            </SelectItem>
           </Select>
 
           <div className="flex justify-between gap-4 mt-5">
-            <Button type="submit" color="blue" className="mt-2">
+            <Button type="submit" color="primary" className="mt-2">
               {isUpdate ? "Update Item" : "Create Item"}
             </Button>
 
-            <Button onClick={onClose} color="red" className="mt-2">
+            <Button onClick={onClose} color="danger" className="mt-2">
               Cancel
             </Button>
           </div>

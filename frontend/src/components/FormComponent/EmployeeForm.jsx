@@ -13,13 +13,14 @@ const EmployeeForm = ({
   title,
   isUpdate = false,
 }) => {
+  console.log(formData);
   const [availableRoles, setAvailableRoles] = useState(["Employee"]);
 
   const [availableUnits, setAvailableUnits] = useState([
     { value: "1", label: "Restaurant" },
-    { value: "2", label: "Grocery Store" },
-    { value: "3", label: "Bottled Water Industry" },
-    { value: "4", label: "Bookshop" },
+    { value: "2", label: "Bookshop" },
+    { value: "3", label: "Grocery Store" },
+    { value: "4", label: "Bottled Water Industry" },
   ]);
 
   const [availableGenders, setAvailableGenders] = useState([
@@ -34,40 +35,41 @@ const EmployeeForm = ({
   };
 
   const handleSelectChange = (value, name) => {
+    console.log(value);
     setFormData({ ...formData, [name]: value });
 
-    // Remove selected role/unit/gender from the list
-    if (name === "role") {
-      setAvailableRoles(availableRoles.filter((role) => role !== value));
-    }
-    if (name === "unit_id") {
-      setAvailableUnits(availableUnits.filter((unit) => unit.value !== value));
-    }
-    if (name === "gender") {
-      setAvailableGenders(
-        availableGenders.filter((gender) => gender.value !== value),
-      );
-    }
+    // // Remove selected role/unit/gender from the list
+    // if (name === "role") {
+    //   setAvailableRoles(availableRoles.filter((role) => role !== value));
+    // }
+    // if (name === "unit_id") {
+    //   setAvailableUnits(availableUnits.filter((unit) => unit.value !== value));
+    // }
+    // if (name === "gender") {
+    //   setAvailableGenders(
+    //     availableGenders.filter((gender) => gender.value !== value),
+    //   );
+    // }
   };
 
   // Validate the form before submitting
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validate isRequired fields
+    // Validate required fields
     if (
       !formData.name ||
       !formData.email ||
       !formData.unit_id ||
       !formData.gender
     ) {
-      toast.error("All fields are isRequired except for password.");
+      toast.error("All fields are required except for password.");
       return;
     }
 
     // If updating, password is optional, show a warning if it's empty
     if (!isUpdate && !formData.password) {
-      toast.error("Password is isRequired for creating a new employee.");
+      toast.error("Password is required for creating a new employee.");
       return;
     }
 
@@ -86,7 +88,7 @@ const EmployeeForm = ({
             value={formData.name}
             onChange={handleInputChange}
             name="name"
-            isRequired
+            required
           />
 
           {/* Employee Email */}
@@ -96,7 +98,7 @@ const EmployeeForm = ({
             onChange={handleInputChange}
             name="email"
             type="email"
-            isRequired
+            required
           />
 
           {/* Password (Optional for Update) */}
@@ -107,26 +109,25 @@ const EmployeeForm = ({
               onChange={handleInputChange}
               name="password"
               type="password"
-              isRequired
+              required
             />
           )}
 
           {/* Role Selection */}
           <Input
             label="Role"
-            value={FormData.role}
+            value={formData.role}
             onChange={handleInputChange}
             name="role"
-            type="role"
-            isRequired
+            required
           />
 
           {/* Unit Selection */}
           <Select
             label="Unit"
-            value={formData.unit_id}
-            onChange={(value) => handleSelectChange(value, "unit_id")}
-            isRequired
+            selectedKeys={[formData.unit_id]}
+            onChange={(e) => handleSelectChange(e.target.value, "unit_id")}
+            required
           >
             {availableUnits.map((unit) => (
               <SelectItem key={unit.value} value={unit.value}>
@@ -138,9 +139,9 @@ const EmployeeForm = ({
           {/* Gender Selection */}
           <Select
             label="Gender"
-            value={formData.gender}
-            onChange={(value) => handleSelectChange(value, "gender")}
-            isRequired
+            selectedKeys={[formData.gender]}
+            onChange={(e) => handleSelectChange(e.target.value, "gender")}
+            required
           >
             {availableGenders.map((gender) => (
               <SelectItem key={gender.value} value={gender.value}>
@@ -150,10 +151,10 @@ const EmployeeForm = ({
           </Select>
 
           <div className="flex justify-between gap-4 mt-5">
-            <Button type="submit" color="blue" className="mt-2">
+            <Button type="submit" color="primary" className="mt-2">
               {isUpdate ? "Update Employee" : "Create Employee"}
             </Button>
-            <Button onClick={onClose} color="red" className="mt-2">
+            <Button onClick={onClose} color="danger" className="mt-2">
               Cancel
             </Button>
           </div>
