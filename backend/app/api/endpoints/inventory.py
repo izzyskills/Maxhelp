@@ -3,10 +3,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from db.session import get_session
 from sqlmodel import select
 from db.models import Inventory, User, BusinessUnit
-from schemas.inventory import InventoryUpdate, InventoryCreate  # Assuming schemas for inventory
+from schemas.inventory import (
+    InventoryUpdate,
+    InventoryCreate,
+)  # Assuming schemas for inventory
 from utils.utils import verify_access_token, oauth2_scheme_user
 
 router = APIRouter()
+
 
 # View inventory (Admins see all, Employees see assigned unit's inventory)
 @router.get("/", response_model=list[Inventory])
@@ -64,7 +68,7 @@ async def update_inventory_item(
     inventory_update: InventoryUpdate,  # Assuming we have a schema for updating inventory
     db: AsyncSession = Depends(get_session),
     token: str = Depends(oauth2_scheme_user),
-    unit_name: str = None  # Business unit name in the request
+    unit_name: str = None,  # Business unit name in the request
 ):
     """
     Endpoint to update inventory item details.
@@ -149,7 +153,7 @@ async def delete_inventory_item(
     item_id: int,
     db: AsyncSession = Depends(get_session),
     token: str = Depends(oauth2_scheme_user),
-    unit_name: str = None  # Business unit name in the request
+    unit_name: str = None,  # Business unit name in the request
 ):
     """
     Endpoint to delete an inventory item.
@@ -223,6 +227,7 @@ async def delete_inventory_item(
 
     return {"message": "Inventory item deleted successfully"}
 
+
 # Inventory stats route
 @router.get("/inventory-stats", response_model=dict)
 async def inventory_stats(
@@ -230,7 +235,7 @@ async def inventory_stats(
 ):
     """
     Endpoint to get inventory statistics, including:
-    - Total number of items with quantity < 10 (low inventory).
+    - Total number of items reorder level < 10 (low inventory).
     - Total number of inventory items.
     """
     # Verify the user's token
@@ -256,7 +261,7 @@ async def inventory_stats(
     if current_user.role == "admin":
         # Fetch total number of inventory items and low stock items
         total_inventory_statement = select(Inventory)
-        low_inventory_statement = select(Inventory).where(Inventory.quantity < 10)
+        low_inventory_statement = select(Inventory).where(Inventory.reorder_level < 10)
 
         total_inventory_result = await db.execute(total_inventory_statement)
         low_inventory_result = await db.execute(low_inventory_statement)
@@ -271,7 +276,9 @@ async def inventory_stats(
         inventory_items = result.scalars().all()
 
         total_inventory_count = len(inventory_items)
-        low_inventory_count = sum(1 for item in inventory_items if item.quantity < 10)
+        low_inventory_count = sum(
+            1 for item in inventory_items if item.reorder_level < 10
+        )
 
     else:
         raise HTTPException(

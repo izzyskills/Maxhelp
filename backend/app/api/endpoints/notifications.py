@@ -13,7 +13,7 @@ from typing import List
 router = APIRouter()
 
 # Threshold to consider low inventory
-LOW_INVENTORY_THRESHOLD = 10 
+LOW_INVENTORY_THRESHOLD = 10
 
 # @router.post("/report-low-inventory")
 # async def report_low_inventory(
@@ -26,7 +26,7 @@ LOW_INVENTORY_THRESHOLD = 10
 #     """
 
 #     print(f"Received inventory_id: {data.inventory_id}")
-    
+
 #     # Verify the user's token
 #     payload = verify_access_token(token)
 #     if payload is None:
@@ -124,7 +124,7 @@ async def report_low_inventory(
     Endpoint for employees to report low inventory in their assigned unit.
     """
     print(f"Received inventory_name: {data.inventory_name}")
-    
+
     # Verify the user's token
     payload = verify_access_token(token)
     if payload is None:
@@ -139,8 +139,9 @@ async def report_low_inventory(
     current_user = result.scalars().first()
 
     if current_user is None:
+        print("hellow")
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
+            status_code=status.HTTP_403_FORBIDDEN,
             detail="User not found",
         )
 
@@ -188,12 +189,16 @@ async def report_low_inventory(
     await db.refresh(notification)
 
     # Fetch the BusinessUnit and related details for reporting
-    business_unit_statement = select(BusinessUnit).where(BusinessUnit.id == inventory_item.unit_id)
+    business_unit_statement = select(BusinessUnit).where(
+        BusinessUnit.id == inventory_item.unit_id
+    )
     result = await db.execute(business_unit_statement)
     business_unit = result.scalars().first()
 
     # Fetch total employees in the unit
-    employee_count_statement = select(User).where(User.unit_id == inventory_item.unit_id)
+    employee_count_statement = select(User).where(
+        User.unit_id == inventory_item.unit_id
+    )
     result = await db.execute(employee_count_statement)
     employees = result.scalars().all()
     total_employees = len(employees)
@@ -208,10 +213,10 @@ async def report_low_inventory(
         "quantity": inventory_item.quantity,
     }
 
-    return {"message": "Low inventory reported successfully", "notification": notification_details}
-
-
-
+    return {
+        "message": "Low inventory reported successfully",
+        "notification": notification_details,
+    }
 
 
 @router.get("/low-inventory", response_model=List[NotificationResponse])
@@ -242,7 +247,9 @@ async def check_low_inventory(
         )
 
     # Fetch all low inventory items
-    statement = select(Inventory).where(Inventory.quantity < LOW_INVENTORY_THRESHOLD)
+    statement = select(Inventory).where(
+        Inventory.reorder_level < LOW_INVENTORY_THRESHOLD
+    )
     result = await db.execute(statement)
     low_inventory_items = result.scalars().all()
 
@@ -250,7 +257,9 @@ async def check_low_inventory(
 
     for item in low_inventory_items:
         # Fetch the associated business unit
-        business_unit_statement = select(BusinessUnit).where(BusinessUnit.id == item.unit_id)
+        business_unit_statement = select(BusinessUnit).where(
+            BusinessUnit.id == item.unit_id
+        )
         result = await db.execute(business_unit_statement)
         business_unit = result.scalars().first()
 

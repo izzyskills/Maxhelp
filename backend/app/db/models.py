@@ -3,6 +3,7 @@ from sqlmodel import SQLModel, Field, Relationship
 from typing import Optional, List
 from datetime import datetime
 
+
 class User(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     name: str = Field(nullable=False, max_length=100)
@@ -33,6 +34,7 @@ class Inventory(SQLModel, table=True):
     price: float = Field(nullable=False)
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
+
 class Order(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     user_id: Optional[int] = Field(foreign_key="user.id")
@@ -41,12 +43,14 @@ class Order(SQLModel, table=True):
     total_amount: float = Field(nullable=False)
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
+
 class OrderItem(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     order_id: int = Field(foreign_key="order.id")
     inventory_id: int = Field(foreign_key="inventory.id")
     quantity: int = Field(nullable=False)
     price: float = Field(nullable=False)
+
 
 class Feedback(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -55,6 +59,7 @@ class Feedback(SQLModel, table=True):
     comment: str = Field(max_length=500)  # Max length 500
     rating: Optional[int] = Field(default=None, ge=1, le=5)
     created_at: datetime = Field(default_factory=datetime.utcnow)
+
 
 class FinancialReport(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
@@ -65,9 +70,12 @@ class FinancialReport(SQLModel, table=True):
     report_date: datetime = Field(default_factory=datetime.utcnow)
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
+
 class Notification(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
     inventory_id: int = Field(foreign_key="inventory.id")
     message: str = Field(max_length=255)
     resolved: bool = Field(default=False)
-    created_at: datetime = Field(default_factory=datetime.utcnow)  # Ensure the default is set correctly
+    created_at: datetime = Field(
+        default_factory=datetime.utcnow
+    )  # Ensure the default is set correctly
